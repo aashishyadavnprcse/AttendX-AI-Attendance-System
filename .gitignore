@@ -1,0 +1,29 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Face recognition data
+face_data/
+faces/
+known_faces/
+
+# Temporary files
+temp/
+tmp/
