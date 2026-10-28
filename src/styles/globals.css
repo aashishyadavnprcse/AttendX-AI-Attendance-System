@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   AttendX Design System - Global Styles & Custom Utilities
+   Ultra-Modern AI Smart Attendance & Analytics Platform
+   ========================================================================== */
+
+:root {
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-primary: #0B0F19;
+  --surface-base: #111827;
+  --surface-glass: rgba(17, 24, 39, 0.72);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --accent-cyan: #06B6D4;
+  --accent-emerald: #10B981;
+  --accent-rose: #F43F5E;
+}
+
+@layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.08);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #0B0F19;
+    color: #F3F4F6;
+    font-family: var(--font-inter);
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(ellipse 70% 40% at 50% -10%, rgba(6, 182, 212, 0.14), transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.06), transparent 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Custom Sleek Dark Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B0F19;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1F2937;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #374151;
+  }
+}
+
+@layer components {
+  /* --------------------------------------------------------------------------
+     1. Glassmorphic Surface Containers
+     -------------------------------------------------------------------------- */
+  .card-glass {
+    background: rgba(17, 24, 39, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.07);
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-glass-interactive {
+    @apply card-glass transition-all duration-300 ease-out;
+  }
+  .card-glass-interactive:hover {
+    border-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.6), 0 0 25px -4px rgba(6, 182, 212, 0.25);
+    transform: translateY(-2px);
+  }
+
+  /* --------------------------------------------------------------------------
+     2. Custom Glowing Buttons
+     -------------------------------------------------------------------------- */
+  .btn-glow-primary {
+    @apply relative inline-flex items-center justify-center font-medium text-sm px-5 py-2.5 rounded-xl
+           bg-brand-cyan text-[#07131B] transition-all duration-300 ease-out font-semibold
+           shadow-glow-cyan hover:shadow-glow-cyan-lg hover:bg-[#22D3EE] active:scale-[0.98]
+           focus:outline-none focus:ring-2 focus:ring-brand-cyan/50;
+  }
+
+  .btn-glow-outline {
+    @apply relative inline-flex items-center justify-center font-medium text-sm px-5 py-2.5 rounded-xl
+           bg-surface/60 text-brand-cyan border border-brand-cyan/40 backdrop-blur-md
+           transition-all duration-300 ease-out hover:border-brand-cyan hover:bg-brand-cyan/10
+           hover:shadow-glow-cyan active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-cyan/40;
+  }
+
+  .btn-glow-emerald {
+    @apply relative inline-flex items-center justify-center font-medium text-sm px-5 py-2.5 rounded-xl
+           bg-brand-emerald text-[#031C11] font-semibold transition-all duration-300 ease-out
+           shadow-glow-emerald hover:bg-brand-emerald-glow active:scale-[0.98]
+           focus:outline-none focus:ring-2 focus:ring-brand-emerald/50;
+  }
+
+  .btn-glow-rose {
+    @apply relative inline-flex items-center justify-center font-medium text-sm px-5 py-2.5 rounded-xl
+           bg-brand-rose text-white font-semibold transition-all duration-300 ease-out
+           shadow-glow-rose hover:bg-brand-rose-glow active:scale-[0.98]
+           focus:outline-none focus:ring-2 focus:ring-brand-rose/50;
+  }
+
+  /* --------------------------------------------------------------------------
+     3. Sleek Status Badges (Present / Spoof / Verifying)
+     -------------------------------------------------------------------------- */
+  .badge-base {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium tracking-wide backdrop-blur-md border;
+  }
+
+  .badge-present {
+    @apply badge-base bg-brand-emerald/10 text-brand-emerald border-brand-emerald/30 shadow-[0_0_12px_-2px_rgba(16,185,129,0.3)];
+  }
+
+  .badge-spoof {
+    @apply badge-base bg-brand-rose/10 text-brand-rose border-brand-rose/30 shadow-[0_0_12px_-2px_rgba(244,63,94,0.3)];
+  }
+
+  .badge-analyzing {
+    @apply badge-base bg-brand-cyan/10 text-brand-cyan border-brand-cyan/30 shadow-[0_0_12px_-2px_rgba(6,182,212,0.3)];
+  }
+
+  .badge-warning {
+    @apply badge-base bg-brand-amber/10 text-brand-amber border-brand-amber/30 shadow-[0_0_12px_-2px_rgba(245,158,11,0.3)];
+  }
+
+  /* --------------------------------------------------------------------------
+     4. AI Radar & Biometric Scanner Elements
+     -------------------------------------------------------------------------- */
+  .ai-scan-hud {
+    position: relative;
+    border: 1px dashed rgba(6, 182, 212, 0.4);
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.05) 0%, transparent 70%);
+  }
+
+  .scan-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #06B6D4 50%, transparent 100%);
+    box-shadow: 0 0 15px #06B6D4, 0 0 5px #22D3EE;
+    animation: scanLine 2.2s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .text-glow-cyan {
+    text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
+  }
+  .text-glow-emerald {
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+  }
+  .text-glow-rose {
+    text-shadow: 0 0 12px rgba(244, 63, 94, 0.6);
+  }
+  .glass-border-gradient {
+    border-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02)) 1;
+  }
+}

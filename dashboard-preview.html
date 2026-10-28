@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AttendX — Teacher & Admin Telemetry Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: { DEFAULT: '#0B0F19', darker: '#060911', lighter: '#101726' },
+            surface: { DEFAULT: '#111827', elevated: '#172236' },
+            brand: {
+              cyan: { DEFAULT: '#06B6D4', glow: '#22D3EE' },
+              emerald: { DEFAULT: '#10B981', glow: '#34D399' },
+              rose: { DEFAULT: '#F43F5E', glow: '#FB7185' },
+              amber: { DEFAULT: '#F59E0B', glow: '#FBBF24' }
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          boxShadow: {
+            'glow-cyan': '0 0 20px -3px rgba(6, 182, 212, 0.45), 0 0 8px -2px rgba(6, 182, 212, 0.3)',
+            'glow-cyan-lg': '0 0 35px -5px rgba(6, 182, 212, 0.6)',
+            'glow-emerald': '0 0 20px -3px rgba(16, 185, 129, 0.45)',
+            'glow-rose': '0 0 20px -3px rgba(244, 63, 94, 0.45)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0B0F19;
+      color: #F3F4F6;
+      font-family: 'Inter', sans-serif;
+      background-image: 
+        radial-gradient(ellipse 70% 40% at 50% -10%, rgba(6, 182, 212, 0.14), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.06), transparent 45%);
+      background-attachment: fixed;
+    }
+    .card-glass {
+      background: rgba(17, 24, 39, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.07);
+    }
+    @keyframes scanLine {
+      0% { top: 0%; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+    .scan-line-anim {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #06B6D4 50%, transparent 100%);
+      box-shadow: 0 0 15px #06B6D4, 0 0 5px #22D3EE;
+      animation: scanLine 2.4s ease-in-out infinite;
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0B0F19; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
+  </style>
+</head>
+<body class="min-h-screen flex">
+
+  <!-- ============================================================== -->
+  <!-- 1. SIDEBAR NAVIGATION                                          -->
+  <!-- ============================================================== -->
+  <aside class="w-64 flex-shrink-0 bg-surface/80 backdrop-blur-xl border-r border-white/5 flex flex-col justify-between h-screen sticky top-0 hidden md:flex">
+    <div>
+      <!-- Brand -->
+      <div class="p-6 border-b border-white/5 flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-glow-cyan">
+          <span class="text-[#07131B] font-black text-xl tracking-tighter">A</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-lg font-bold tracking-tight text-white">Attend</span>
+            <span class="text-lg font-bold tracking-tight text-brand-cyan">X</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">AI</span>
+          </div>
+          <p class="text-[11px] text-gray-400 font-mono">Biometric Intelligence</p>
+        </div>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="p-4 space-y-1.5">
+        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 shadow-[0_0_15px_-3px_rgba(6,182,212,0.25)]">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            <span>Dashboard</span>
+          </div>
+        </button>
+
+        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span>Live Camera Feed</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-brand-rose/20 text-brand-rose border border-brand-rose/40 animate-pulse">
+            3 Alerts
+          </span>
+        </button>
+
+        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Student Analytics</span>
+          </div>
+        </button>
+
+        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Attendance Reports</span>
+          </div>
+        </button>
+
+        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-3">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Settings</span>
+          </div>
+        </button>
+      </nav>
+    </div>
+
+    <!-- User Profile Footer -->
+    <div class="p-4 m-3 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-md">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100" class="h-9 w-9 rounded-xl object-cover border border-cyan-500/40" />
+          <span class="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-slate-900"></span>
+        </div>
+        <div class="overflow-hidden">
+          <h4 class="text-xs font-semibold text-white truncate">Dr. Elena Rostova</h4>
+          <p class="text-[11px] text-gray-400 truncate">Computer Vision Dept</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============================================================== -->
+  <!-- 2. MAIN CONTENT AREA                                           -->
+  <!-- ============================================================== -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Header -->
+    <header class="h-20 border-b border-white/5 bg-background/60 backdrop-blur-xl px-8 flex items-center justify-between sticky top-0 z-30">
+      <div>
+        <div class="flex items-center gap-3">
+          <h1 class="text-lg font-bold text-white tracking-tight">Neural Networks & Computer Vision</h1>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            LIVE SESSION ACTIVE
+          </span>
+        </div>
+        <p class="text-xs text-gray-400 mt-0.5 font-mono">
+          Lab Block C • Room 402 • Geofence Anchor: <span class="text-cyan-400">37.7749° N, 122.4194° W</span> (20m)
+        </p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="relative hidden lg:block">
+          <input type="text" placeholder="Search student or roll #..." class="w-64 bg-surface/80 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500/60 font-mono" />
+          <kbd class="absolute right-2.5 top-2 px-1.5 py-0.5 text-[10px] font-mono text-gray-400 bg-white/5 border border-white/10 rounded">⌘K</kbd>
+        </div>
+        <button id="sessionBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-rose/20 text-brand-rose border border-brand-rose/40 hover:bg-brand-rose/30 shadow-glow-rose transition-all flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-brand-rose animate-pulse"></span>
+          Conclude Attendance
+        </button>
+      </div>
+    </header>
+
+    <main class="p-8 space-y-8 flex-1 overflow-y-auto">
+      <!-- Live Metrics Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- 1. Total Enrolled -->
+        <div class="card-glass rounded-2xl p-5 hover:border-cyan-500/40 hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.3)] transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Total Enrolled</span>
+            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
+              <svg class="w-5 h-5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+          </div>
+          <div class="my-3">
+            <div class="text-3xl font-extrabold text-brand-cyan">1,443</div>
+            <span class="text-xs font-semibold font-mono text-emerald-400">+14 this term</span>
+          </div>
+          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Registered Biometric Profiles</p>
+        </div>
+
+        <!-- 2. Present Today -->
+        <div class="card-glass rounded-2xl p-5 hover:border-emerald-500/40 hover:shadow-[0_0_25px_-5px_rgba(16,185,129,0.3)] transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Present Today</span>
+            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
+              <svg class="w-5 h-5 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+          </div>
+          <div class="my-3">
+            <div class="text-3xl font-extrabold text-brand-emerald">1,420</div>
+            <span class="text-xs font-semibold font-mono text-emerald-400">98.4% verified</span>
+          </div>
+          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">23 unexcused absences</p>
+        </div>
+
+        <!-- 3. Active Spoof Attempts -->
+        <div class="card-glass rounded-2xl p-5 hover:border-rose-500/40 hover:shadow-[0_0_25px_-5px_rgba(244,63,94,0.3)] transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Active Spoof Attempts</span>
+            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
+              <svg class="w-5 h-5 text-brand-rose" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+          </div>
+          <div class="my-3">
+            <div class="text-3xl font-extrabold text-brand-rose">3</div>
+            <span class="text-xs font-semibold font-mono text-emerald-400">100% blocked</span>
+          </div>
+          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Replay & photo attacks prevented</p>
+        </div>
+
+        <!-- 4. Class Attention % -->
+        <div class="card-glass rounded-2xl p-5 hover:border-amber-400/40 hover:shadow-[0_0_25px_-5px_rgba(245,158,11,0.3)] transition-all">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Class Attention %</span>
+            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
+              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            </div>
+          </div>
+          <div class="my-3">
+            <div class="text-3xl font-extrabold text-amber-400">89.2%</div>
+            <span class="text-xs font-semibold font-mono text-emerald-400">+3.4% vs last week</span>
+          </div>
+          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Pose Pitch & Whiteboard Focus</p>
+        </div>
+      </div>
+
+      <!-- Live Feed View (Split Screen) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Live Camera Canvas (7 cols) -->
+        <div class="lg:col-span-7 card-glass rounded-2xl p-5 flex flex-col justify-between">
+          <div class="flex items-center justify-between pb-3 border-b border-white/5">
+            <div class="flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span class="text-xs font-semibold text-white tracking-wide">AI Biometric Vision — Gate A</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">60.2 FPS</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-black/40 p-1 rounded-xl border border-white/5 text-[11px] font-mono">
+              <button class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">CAM-01</button>
+              <button class="px-2.5 py-1 rounded-lg text-gray-400 hover:text-white">CAM-02</button>
+              <button class="px-2.5 py-1 rounded-lg text-gray-400 hover:text-white">CCTV-YOLO</button>
+            </div>
+          </div>
+
+          <!-- Video Stream Mock Container -->
+          <div class="relative my-4 h-[340px] rounded-xl bg-[#060912] border border-white/10 overflow-hidden flex items-center justify-center">
+            <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div class="scan-line-anim"></div>
+
+            <!-- Green Box (Verified Present) -->
+            <div class="absolute left-[12%] top-[18%] w-[38%] h-[68%] border-2 border-brand-emerald rounded-lg bg-brand-emerald/[0.04]">
+              <div class="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-brand-emerald"></div>
+              <div class="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-brand-emerald"></div>
+              <div class="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-brand-emerald"></div>
+              <div class="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-brand-emerald"></div>
+              <div class="absolute -top-7 left-0 right-0 flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-emerald text-black shadow-glow-emerald">VERIFIED PRESENT</span>
+                <span class="text-[10px] font-mono text-emerald-400">99.8%</span>
+              </div>
+              <div class="absolute -bottom-8 left-0 px-2 py-1 bg-surface/90 border border-brand-emerald/30 rounded text-[10px] font-mono text-gray-200">
+                Sarah Chen • CS-2026-001 (5.2m)
+              </div>
+            </div>
+
+            <!-- Red Box (Spoof Detected) -->
+            <div class="absolute right-[12%] top-[25%] w-[32%] h-[60%] border-2 border-brand-rose rounded-lg bg-brand-rose/[0.05]">
+              <div class="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-brand-rose"></div>
+              <div class="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-brand-rose"></div>
+              <div class="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-brand-rose"></div>
+              <div class="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-brand-rose"></div>
+              <div class="absolute -top-7 left-0 right-0 flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-rose text-white shadow-glow-rose animate-pulse">SPOOF ALERT</span>
+                <span class="text-[10px] font-mono text-rose-400">32.4%</span>
+              </div>
+              <div class="absolute -bottom-8 left-0 px-2 py-1 bg-surface/90 border border-brand-rose/30 rounded text-[10px] font-mono text-rose-300">
+                Screen Glare Attack Intercepted
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs font-mono text-gray-400 pt-2 border-t border-white/5">
+            <div>Latency: <span class="text-cyan-400">14.2ms</span> | Bitrate: <span class="text-gray-300">4,280 kbps</span></div>
+            <span class="text-emerald-400 flex items-center gap-1">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              Anti-Spoof Liveness Active
+            </span>
+          </div>
+        </div>
+
+        <!-- Real-Time Activity Log Ticker (5 cols) -->
+        <div class="lg:col-span-5 card-glass rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-white/5">
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Live Verification Ticker</h3>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-300 border border-white/10" id="tickerCount">5 events</span>
+            </div>
+
+            <!-- Ticker Feed Container -->
+            <div class="space-y-2.5 mt-3 max-h-[340px] overflow-y-auto pr-1" id="tickerContainer">
+              <!-- Item 1: Sarah Chen -->
+              <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="h-8 w-8 rounded-lg object-cover border border-white/10" />
+                  <div class="overflow-hidden">
+                    <span class="text-xs font-semibold text-white block truncate">Sarah Chen</span>
+                    <span class="text-[10px] font-mono text-gray-400">CS-2026-001 • Biometrics</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                    100% Match
+                  </span>
+                  <div class="text-[10px] font-mono text-gray-400 mt-1">10:14 AM</div>
+                </div>
+              </div>
+
+              <!-- Item 2: Spoof Attempt -->
+              <div class="p-3 rounded-xl bg-rose-500/[0.04] border border-rose-500/20 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="h-8 w-8 rounded-lg object-cover border border-rose-500/40" />
+                  <div class="overflow-hidden">
+                    <span class="text-xs font-semibold text-rose-300 block truncate">Unauthorized Impostor</span>
+                    <span class="text-[10px] font-mono text-rose-400/80">Screen Replay Intercepted</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/40 animate-pulse">
+                    Spoof
+                  </span>
+                  <div class="text-[10px] font-mono text-gray-400 mt-1">10:13 AM</div>
+                </div>
+              </div>
+
+              <!-- Item 3: Bunk Flagged -->
+              <div class="p-3 rounded-xl bg-amber-500/[0.04] border border-amber-500/20 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 overflow-hidden">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="h-8 w-8 rounded-lg object-cover border border-amber-500/40" />
+                  <div class="overflow-hidden">
+                    <span class="text-xs font-semibold text-amber-300 block truncate">Alex Mercer</span>
+                    <span class="text-[10px] font-mono text-gray-400">CS-2026-002 • Seat Vacated</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                    Bunked
+                  </span>
+                  <div class="text-[10px] font-mono text-gray-400 mt-1">10:11 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-white/5 flex items-center justify-between text-xs text-gray-400 font-mono">
+            <span>Auto-sync active</span>
+            <button class="text-cyan-400 hover:underline text-[11px]">Export Session CSV →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Graphs -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Weekly Attendance Trends (8 cols) -->
+        <div class="lg:col-span-8 card-glass rounded-2xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-sm font-bold text-white tracking-tight">Weekly Attendance & Spoof Telemetry</h3>
+              <p class="text-xs text-gray-400 font-mono mt-0.5">5-Day Verified Attendance vs. Intercepted Spoof Attacks</p>
+            </div>
+            <div class="flex items-center gap-4 text-xs font-mono">
+              <span class="flex items-center gap-1.5 text-gray-300"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Present</span>
+              <span class="flex items-center gap-1.5 text-gray-500"><span class="h-2 w-2 rounded-full bg-gray-500"></span> Absent</span>
+              <span class="flex items-center gap-1.5 text-rose-400"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Spoofs</span>
+            </div>
+          </div>
+          <div class="h-60 w-full">
+            <canvas id="attendanceChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Attention Breakdown (4 cols) -->
+        <div class="lg:col-span-4 card-glass rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold text-white tracking-tight">Class Attention Breakdown</h3>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">MediaPipe Pose</span>
+            </div>
+            <div class="h-44 flex items-center justify-center">
+              <canvas id="attentionChart"></canvas>
+            </div>
+            <div class="space-y-2 mt-4 font-mono text-xs">
+              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-cyan-400"></span> Whiteboard Focus</span><span class="text-white font-bold">72%</span></div>
+              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Active Note-Taking</span><span class="text-white font-bold">18%</span></div>
+              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Smartphone Distraction</span><span class="text-white font-bold">7%</span></div>
+              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber-400"></span> Turned Sideways</span><span class="text-white font-bold">3%</span></div>
+            </div>
+          </div>
+          <p className="text-[11px] text-gray-400 border-t border-white/5 pt-3 mt-3">
+            💡 AI Insight: Whiteboard focus remained above 85% during interactive demo.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Chart.js Setup Script & Live Ticker Simulator -->
+  <script>
+    // 1. Weekly Attendance Trends Line/Bar Chart
+    const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+    new Chart(ctxAttendance, {
+      type: 'bar',
+      data: {
+        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        datasets: [
+          {
+            label: 'Verified Present',
+            data: [1420, 1398, 1435, 1410, 1420],
+            backgroundColor: 'rgba(16, 185, 129, 0.75)',
+            borderColor: '#10B981',
+            borderRadius: 8,
+            barThickness: 28,
+          },
+          {
+            label: 'Unexcused Absent',
+            data: [23, 45, 8, 33, 23],
+            backgroundColor: 'rgba(75, 85, 99, 0.45)',
+            borderColor: '#4B5563',
+            borderRadius: 8,
+            barThickness: 28,
+          },
+          {
+            label: 'Spoof Intercepted',
+            data: [4, 2, 1, 5, 3],
+            backgroundColor: 'rgba(244, 63, 94, 0.85)',
+            borderColor: '#F43F5E',
+            borderRadius: 8,
+            barThickness: 28,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 } }
+          },
+          y: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 } }
+          }
+        }
+      }
+    });
+
+    // 2. Attention Breakdown Doughnut Chart
+    const ctxAttention = document.getElementById('attentionChart').getContext('2d');
+    new Chart(ctxAttention, {
+      type: 'doughnut',
+      data: {
+        labels: ['Board Focus', 'Active Notes', 'Smartphone', 'Turned Sideways'],
+        datasets: [{
+          data: [72, 18, 7, 3],
+          backgroundColor: ['#06B6D4', '#10B981', '#F43F5E', '#F59E0B'],
+          borderColor: '#111827',
+          borderWidth: 3,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '72%',
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+
+    // 3. Live Ticker Simulator
+    const ticker = document.getElementById('tickerContainer');
+    const tickerCount = document.getElementById('tickerCount');
+    let eventsCount = 5;
+
+    const mockStudents = [
+      { name: 'Marcus Vance', roll: 'CS-2026-005', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' },
+      { name: 'Priya Sharma', roll: 'CS-2026-006', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
+      { name: 'David Kim', roll: 'CS-2026-003', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
+    ];
+    let idx = 0;
+
+    setInterval(() => {
+      const student = mockStudents[idx % mockStudents.length];
+      idx++;
+      eventsCount++;
+      tickerCount.innerText = `${eventsCount} events`;
+
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const item = document.createElement('div');
+      item.className = 'p-3 rounded-xl bg-white/[0.02] border border-cyan-500/20 flex items-center justify-between gap-3 transition-all duration-500';
+      item.innerHTML = `
+        <div class="flex items-center gap-3 overflow-hidden">
+          <img src="${student.avatar}" class="h-8 w-8 rounded-lg object-cover border border-white/10" />
+          <div class="overflow-hidden">
+            <span class="text-xs font-semibold text-white block truncate">${student.name}</span>
+            <span class="text-[10px] font-mono text-cyan-400">${student.roll} • Face + Liveness</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            99% Match
+          </span>
+          <div class="text-[10px] font-mono text-gray-400 mt-1">${now}</div>
+        </div>
+      `;
+      ticker.prepend(item);
+      if (ticker.children.length > 8) {
+        ticker.removeChild(ticker.lastChild);
+      }
+    }, 4500);
+  </script>
+</body>
+</html>
