@@ -1,31 +1,13 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/health",
-      "dest": "/public_landing.html",
-      "status": 200
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
     },
     {
-      "src": "/dashboard",
-      "dest": "/dashboard-preview.html"
-    },
-    {
-      "src": "/app",
-      "dest": "/dashboard-preview.html"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
-    },
-    {
-      "src": "/",
-      "dest": "/public_landing.html"
+      "source": "/app",
+      "destination": "/dashboard.html"
     }
   ],
   "headers": [
