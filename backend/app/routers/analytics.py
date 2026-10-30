@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from typing import Optional
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 
@@ -9,7 +9,12 @@ from app.db.session import get_db
 from app.models.user import User, UserRole
 from app.models.session import ClassSession
 from app.models.attendance import AttendanceLog, AttendanceStatus
-from app.schemas.analytics import RealtimeAnalyticsResponse, RecentLogItem
+from app.schemas.analytics import (
+    RealtimeAnalyticsResponse,
+    RecentLogItem,
+    ContinuousMonitoringBatchRequest,
+    ContinuousMonitoringBatchResponse,
+)
 
 router = APIRouter(prefix="/analytics", tags=["Analytics & Telemetry"])
 
@@ -89,6 +94,63 @@ def get_realtime_analytics(
     )
 
 
+@router.get("/weekly")
+def get_weekly_analytics(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Returns database-backed weekly attendance statistics (last 5 calendar days).
+    """
+    from datetime import timedelta
+    today = datetime.now(timezone.utc).date()
+    days = [today - timedelta(days=i) for i in range(4, -1, -1)]
+
+    labels = [d.strftime("%A (%b %d)") for d in days]
+    present_data = []
+    absent_data = []
+    spoof_data = []
+
+    total_logs_found = 0
+    for day in days:
+        day_start = datetime(day.year, day.month, day.day, 0, 0, 0, tzinfo=timezone.utc)
+        day_end = datetime(day.year, day.month, day.day, 23, 59, 59, tzinfo=timezone.utc)
+
+        p = db.query(AttendanceLog).filter(
+            AttendanceLog.timestamp >= day_start,
+            AttendanceLog.timestamp <= day_end,
+            AttendanceLog.status == AttendanceStatus.PRESENT
+        ).count()
+
+        a = db.query(AttendanceLog).filter(
+            AttendanceLog.timestamp >= day_start,
+            AttendanceLog.timestamp <= day_end,
+            AttendanceLog.status == AttendanceStatus.ABSENT
+        ).count()
+
+        s = db.query(AttendanceLog).filter(
+            AttendanceLog.timestamp >= day_start,
+            AttendanceLog.timestamp <= day_end,
+            AttendanceLog.status == AttendanceStatus.SPOOF_DETECTED
+        ).count()
+
+        present_data.append(p)
+        absent_data.append(a)
+        spoof_data.append(s)
+        total_logs_found += (p + a + s)
+
+    return {
+        "labels": labels,
+        "present": present_data,
+        "absent": absent_data,
+        "spoof": spoof_data,
+        "has_real_history": total_logs_found > 0,
+        "total_records": total_logs_found,
+        "note": "Actual SQLite records from attendx.db" if total_logs_found > 0 else "No real attendance data available yet."
+    }
+
+
+
 @router.post("/continuous-monitoring", response_model=ContinuousMonitoringBatchResponse)
 def receive_continuous_monitoring_batch(
     payload: ContinuousMonitoringBatchRequest,
@@ -149,3 +211,4 @@ def receive_continuous_monitoring_batch(
         bunks_flagged=bunks_count,
         timestamp=datetime.now(timezone.utc),
     )
+

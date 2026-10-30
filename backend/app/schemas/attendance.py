@@ -18,6 +18,13 @@ class AttendanceVerifyRequest(BaseModel):
     verification_method: Optional[str] = "FACE_BIOMETRIC_LIVENESS"
 
 
+class ManualAttendanceRequest(BaseModel):
+    student_id: int
+    session_id: Optional[int] = None
+    status: AttendanceStatus = AttendanceStatus.PRESENT
+    notes: Optional[str] = "Manual entry by instructor"
+
+
 class AttendanceVerifyResponse(BaseModel):
     log_id: int
     student_id: int

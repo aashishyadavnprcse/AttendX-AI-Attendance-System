@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AttendX — Teacher & Admin Telemetry Dashboard</title>
+  <title>AttendX — Smart Attendance System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -98,40 +98,100 @@
       </div>
 
       <!-- Nav Links -->
-      <nav class="p-4 space-y-1.5">
-        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 shadow-[0_0_15px_-3px_rgba(6,182,212,0.25)]">
-          <div class="flex items-center gap-3">
+      <nav class="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-170px)] pr-2">
+        <div class="px-2 pb-1 text-[10px] font-mono font-bold text-gray-500 uppercase tracking-wider">Core Systems</div>
+        <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 shadow-[0_0_15px_-3px_rgba(6,182,212,0.25)] transition-all">
+          <div class="flex items-center gap-2.5">
             <svg class="w-4 h-4 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
             <span>Dashboard</span>
           </div>
         </button>
 
-        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
-          <div class="flex items-center gap-3">
+        <button id="nav-camera" onclick="switchTab('camera')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
             <span>Live Camera Feed</span>
           </div>
-          <span class="px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-brand-rose/20 text-brand-rose border border-brand-rose/40 animate-pulse">
-            3 Alerts
-          </span>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-brand-cyan/20 text-brand-cyan">Hardware</span>
         </button>
 
-        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
-          <div class="flex items-center gap-3">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            <span>Student Analytics</span>
+        <button id="nav-analytics" onclick="switchTab('analytics')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <span>Student Roster</span>
           </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-400">Roster</span>
         </button>
 
-        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
-          <div class="flex items-center gap-3">
+        <button id="nav-reports" onclick="switchTab('reports')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             <span>Attendance Reports</span>
           </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-500/20 text-emerald-400">Live DB</span>
         </button>
 
-        <button class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
-          <div class="flex items-center gap-3">
+        <div class="px-2 pt-3 pb-1 text-[10px] font-mono font-bold text-gray-500 uppercase tracking-wider">Advanced AI & Bio</div>
+        <button id="nav-biometrics" onclick="switchTab('biometrics')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Face & Liveness Lab</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-500/20 text-emerald-400">LIVE</span>
+        </button>
+
+        <button id="nav-presence" onclick="switchTab('presence')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Class Presence</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-400">DEMO</span>
+        </button>
+
+        <button id="nav-proximity" onclick="switchTab('proximity')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+            <span>BLE & Geofence</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-400">DEMO</span>
+        </button>
+
+        <button id="nav-gait" onclick="switchTab('gait')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Gait & Posture</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-500/20 text-amber-400">RESEARCH</span>
+        </button>
+
+        <div class="px-2 pt-3 pb-1 text-[10px] font-mono font-bold text-gray-500 uppercase tracking-wider">Security & Hardware</div>
+        <button id="nav-audit" onclick="switchTab('audit')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>Audit Ledger</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-500/20 text-emerald-400">LIVE</span>
+        </button>
+
+        <button id="nav-iot" onclick="switchTab('iot')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+            <span>ESP32 & RFID Gateway</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-400">DEMO</span>
+        </button>
+
+        <button id="nav-predictions" onclick="switchTab('predictions')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span>Risk & Parent Alerts</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-500/20 text-emerald-400">LIVE</span>
+        </button>
+
+        <div class="px-2 pt-3 pb-1 text-[10px] font-mono font-bold text-gray-500 uppercase tracking-wider">System</div>
+        <button id="nav-settings" onclick="switchTab('settings')" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-400 hover:text-gray-200 hover:bg-white/5 transition-all">
+          <div class="flex items-center gap-2.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
             <span>Settings</span>
           </div>
@@ -141,14 +201,24 @@
 
     <!-- User Profile Footer -->
     <div class="p-4 m-3 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-md">
-      <div class="flex items-center gap-3">
-        <div class="relative">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100" class="h-9 w-9 rounded-xl object-cover border border-cyan-500/40" />
-          <span class="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-slate-900"></span>
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <div class="relative flex-shrink-0">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100" class="h-9 w-9 rounded-xl object-cover border border-cyan-500/40" />
+            <span id="profileOnlineDot" class="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-slate-900"></span>
+          </div>
+          <div class="overflow-hidden">
+            <h4 class="text-xs font-semibold text-white truncate" id="profileName">Dr. Elena Rostova</h4>
+            <p class="text-[11px] text-gray-400 truncate font-mono" id="profileEmail">teacher@attendx.ai</p>
+          </div>
         </div>
-        <div class="overflow-hidden">
-          <h4 class="text-xs font-semibold text-white truncate">Dr. Elena Rostova</h4>
-          <p class="text-[11px] text-gray-400 truncate">Computer Vision Dept</p>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button id="btnLogin" onclick="handleLogin()" title="Log in" class="hidden px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 transition-colors">
+            Log In
+          </button>
+          <button id="btnLogout" onclick="handleLogout()" title="Log out" class="p-1.5 rounded-lg text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -162,388 +232,2746 @@
     <header class="h-20 border-b border-white/5 bg-background/60 backdrop-blur-xl px-8 flex items-center justify-between sticky top-0 z-30">
       <div>
         <div class="flex items-center gap-3">
-          <h1 class="text-lg font-bold text-white tracking-tight">Neural Networks & Computer Vision</h1>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+          <h1 id="headerSubject" class="text-lg font-bold text-white tracking-tight">Neural Networks & Computer Vision</h1>
+          <span id="sessionStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
             <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping"></span>
             LIVE SESSION ACTIVE
           </span>
         </div>
         <p class="text-xs text-gray-400 mt-0.5 font-mono">
-          Lab Block C • Room 402 • Geofence Anchor: <span class="text-cyan-400">37.7749° N, 122.4194° W</span> (20m)
+          Lab Block C • Room 402 • Geofence Anchor: <span id="headerCoords" class="text-cyan-400">37.7749° N, 122.4194° W</span> (<span id="headerRadius">20m</span>)
         </p>
       </div>
 
       <div class="flex items-center gap-4">
-        <div class="relative hidden lg:block">
-          <input type="text" placeholder="Search student or roll #..." class="w-64 bg-surface/80 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500/60 font-mono" />
-          <kbd class="absolute right-2.5 top-2 px-1.5 py-0.5 text-[10px] font-mono text-gray-400 bg-white/5 border border-white/10 rounded">⌘K</kbd>
+        <div id="backendStatusPill" class="px-3 py-1.5 rounded-xl text-xs font-mono bg-white/[0.04] border border-white/10 flex items-center gap-2">
+          <span id="backendDot" class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="backendStatusText" class="text-gray-300">Backend: Connecting...</span>
         </div>
-        <button id="sessionBtn" class="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-rose/20 text-brand-rose border border-brand-rose/40 hover:bg-brand-rose/30 shadow-glow-rose transition-all flex items-center gap-2">
+        <button id="sessionBtn" onclick="toggleSessionState()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-rose/20 text-brand-rose border border-brand-rose/40 hover:bg-brand-rose/30 shadow-glow-rose transition-all flex items-center gap-2">
           <span class="h-2 w-2 rounded-full bg-brand-rose animate-pulse"></span>
-          Conclude Attendance
+          <span id="sessionBtnText">Conclude Attendance</span>
         </button>
       </div>
     </header>
 
     <main class="p-8 space-y-8 flex-1 overflow-y-auto">
-      <!-- Live Metrics Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <!-- 1. Total Enrolled -->
-        <div class="card-glass rounded-2xl p-5 hover:border-cyan-500/40 hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.3)] transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Total Enrolled</span>
-            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
-              <svg class="w-5 h-5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-            </div>
-          </div>
-          <div class="my-3">
-            <div class="text-3xl font-extrabold text-brand-cyan">1,443</div>
-            <span class="text-xs font-semibold font-mono text-emerald-400">+14 this term</span>
-          </div>
-          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Registered Biometric Profiles</p>
-        </div>
 
-        <!-- 2. Present Today -->
-        <div class="card-glass rounded-2xl p-5 hover:border-emerald-500/40 hover:shadow-[0_0_25px_-5px_rgba(16,185,129,0.3)] transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Present Today</span>
-            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
-              <svg class="w-5 h-5 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <!-- ========================================== -->
+      <!-- VIEW 1: DASHBOARD MAIN OVERVIEW            -->
+      <!-- ========================================== -->
+      <div id="view-dashboard" class="space-y-8">
+        <!-- Live Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- 1. Total Enrolled -->
+          <div class="card-glass rounded-2xl p-5 hover:border-cyan-500/40 hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.3)] transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-medium text-gray-400 uppercase">Total Enrolled</span>
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LIVE DB</span>
             </div>
-          </div>
-          <div class="my-3">
-            <div class="text-3xl font-extrabold text-brand-emerald">1,420</div>
-            <span class="text-xs font-semibold font-mono text-emerald-400">98.4% verified</span>
-          </div>
-          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">23 unexcused absences</p>
-        </div>
-
-        <!-- 3. Active Spoof Attempts -->
-        <div class="card-glass rounded-2xl p-5 hover:border-rose-500/40 hover:shadow-[0_0_25px_-5px_rgba(244,63,94,0.3)] transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Active Spoof Attempts</span>
-            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
-              <svg class="w-5 h-5 text-brand-rose" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <div class="my-3">
+              <div id="statTotalEnrolled" class="text-3xl font-extrabold text-brand-cyan">--</div>
+              <span id="subTotalEnrolled" class="text-xs font-semibold font-mono text-emerald-400">Loading students from DB...</span>
             </div>
-          </div>
-          <div class="my-3">
-            <div class="text-3xl font-extrabold text-brand-rose">3</div>
-            <span class="text-xs font-semibold font-mono text-emerald-400">100% blocked</span>
-          </div>
-          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Replay & photo attacks prevented</p>
-        </div>
-
-        <!-- 4. Class Attention % -->
-        <div class="card-glass rounded-2xl p-5 hover:border-amber-400/40 hover:shadow-[0_0_25px_-5px_rgba(245,158,11,0.3)] transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-medium text-gray-400 uppercase">Class Attention %</span>
-            <div class="p-2 rounded-xl bg-white/[0.04] border border-white/5">
-              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-            </div>
-          </div>
-          <div class="my-3">
-            <div class="text-3xl font-extrabold text-amber-400">89.2%</div>
-            <span class="text-xs font-semibold font-mono text-emerald-400">+3.4% vs last week</span>
-          </div>
-          <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Pose Pitch & Whiteboard Focus</p>
-        </div>
-      </div>
-
-      <!-- Live Feed View (Split Screen) -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Live Camera Canvas (7 cols) -->
-        <div class="lg:col-span-7 card-glass rounded-2xl p-5 flex flex-col justify-between">
-          <div class="flex items-center justify-between pb-3 border-b border-white/5">
-            <div class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span class="text-xs font-semibold text-white tracking-wide">AI Biometric Vision — Gate A</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">60.2 FPS</span>
-            </div>
-            <div class="flex items-center gap-1.5 bg-black/40 p-1 rounded-xl border border-white/5 text-[11px] font-mono">
-              <button class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/40">CAM-01</button>
-              <button class="px-2.5 py-1 rounded-lg text-gray-400 hover:text-white">CAM-02</button>
-              <button class="px-2.5 py-1 rounded-lg text-gray-400 hover:text-white">CCTV-YOLO</button>
-            </div>
+            <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">SQLite User Records</p>
           </div>
 
-          <!-- Video Stream Mock Container -->
-          <div class="relative my-4 h-[340px] rounded-xl bg-[#060912] border border-white/10 overflow-hidden flex items-center justify-center">
-            <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            <div class="scan-line-anim"></div>
-
-            <!-- Green Box (Verified Present) -->
-            <div class="absolute left-[12%] top-[18%] w-[38%] h-[68%] border-2 border-brand-emerald rounded-lg bg-brand-emerald/[0.04]">
-              <div class="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-brand-emerald"></div>
-              <div class="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-brand-emerald"></div>
-              <div class="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-brand-emerald"></div>
-              <div class="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-brand-emerald"></div>
-              <div class="absolute -top-7 left-0 right-0 flex items-center justify-between">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-emerald text-black shadow-glow-emerald">VERIFIED PRESENT</span>
-                <span class="text-[10px] font-mono text-emerald-400">99.8%</span>
-              </div>
-              <div class="absolute -bottom-8 left-0 px-2 py-1 bg-surface/90 border border-brand-emerald/30 rounded text-[10px] font-mono text-gray-200">
-                Sarah Chen • CS-2026-001 (5.2m)
-              </div>
+          <!-- 2. Present Today -->
+          <div class="card-glass rounded-2xl p-5 hover:border-emerald-500/40 hover:shadow-[0_0_25px_-5px_rgba(16,185,129,0.3)] transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-medium text-gray-400 uppercase">Present Today</span>
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LIVE DB</span>
             </div>
-
-            <!-- Red Box (Spoof Detected) -->
-            <div class="absolute right-[12%] top-[25%] w-[32%] h-[60%] border-2 border-brand-rose rounded-lg bg-brand-rose/[0.05]">
-              <div class="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-brand-rose"></div>
-              <div class="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-brand-rose"></div>
-              <div class="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-brand-rose"></div>
-              <div class="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-brand-rose"></div>
-              <div class="absolute -top-7 left-0 right-0 flex items-center justify-between">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-rose text-white shadow-glow-rose animate-pulse">SPOOF ALERT</span>
-                <span class="text-[10px] font-mono text-rose-400">32.4%</span>
-              </div>
-              <div class="absolute -bottom-8 left-0 px-2 py-1 bg-surface/90 border border-brand-rose/30 rounded text-[10px] font-mono text-rose-300">
-                Screen Glare Attack Intercepted
-              </div>
+            <div class="my-3">
+              <div id="statPresent" class="text-3xl font-extrabold text-brand-emerald">--</div>
+              <span id="statRate" class="text-xs font-semibold font-mono text-emerald-400">Loading attendance rate...</span>
             </div>
+            <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Active Session Logs</p>
           </div>
 
-          <div class="flex items-center justify-between text-xs font-mono text-gray-400 pt-2 border-t border-white/5">
-            <div>Latency: <span class="text-cyan-400">14.2ms</span> | Bitrate: <span class="text-gray-300">4,280 kbps</span></div>
-            <span class="text-emerald-400 flex items-center gap-1">
-              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-              Anti-Spoof Liveness Active
-            </span>
+          <!-- 3. Active Spoof Attempts -->
+          <div class="card-glass rounded-2xl p-5 hover:border-rose-500/40 hover:shadow-[0_0_25px_-5px_rgba(244,63,94,0.3)] transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-medium text-gray-400 uppercase">Spoof Attempts</span>
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LIVE DB</span>
+            </div>
+            <div class="my-3">
+              <div id="statSpoof" class="text-3xl font-extrabold text-brand-rose">0</div>
+              <span id="subSpoof" class="text-xs font-semibold font-mono text-emerald-400">0 attacks intercepted</span>
+            </div>
+            <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Anti-Spoof Audit Logs</p>
+          </div>
+
+          <!-- 4. Class Attention % -->
+          <div class="card-glass rounded-2xl p-5 hover:border-amber-400/40 hover:shadow-[0_0_25px_-5px_rgba(245,158,11,0.3)] transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-medium text-gray-400 uppercase">Pose Attention Est.</span>
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">DEMO DATA</span>
+            </div>
+            <div class="my-3">
+              <div id="statAttention" class="text-3xl font-extrabold text-amber-400">89.2%</div>
+              <span class="text-xs font-semibold font-mono text-amber-300">Synthetic Benchmark (No Live Worker)</span>
+            </div>
+            <p class="text-[11px] text-gray-400 font-mono border-t border-white/5 pt-2.5">Requires CCTV Pose Agent</p>
           </div>
         </div>
 
-        <!-- Real-Time Activity Log Ticker (5 cols) -->
-        <div class="lg:col-span-5 card-glass rounded-2xl p-5 flex flex-col justify-between">
-          <div>
+        <!-- Live Feed View (Split Screen) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Live Camera Canvas (7 cols) -->
+          <div class="lg:col-span-7 card-glass rounded-2xl p-5 flex flex-col justify-between">
             <div class="flex items-center justify-between pb-3 border-b border-white/5">
-              <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Live Verification Ticker</h3>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-300 border border-white/10" id="tickerCount">5 events</span>
+              <div class="flex items-center gap-2">
+                <span id="camDot" class="h-2 w-2 rounded-full bg-amber-400"></span>
+                <span class="text-xs font-semibold text-white tracking-wide">Camera Feed</span>
+                <span id="cameraBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">STANDBY (OFFLINE)</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="btnStartCam" onclick="startCamera()" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 text-[11px] font-mono transition-all">
+                  Start Camera
+                </button>
+                <button id="btnStopCam" onclick="stopCamera()" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/40 hover:bg-rose-500/30 text-[11px] font-mono transition-all hidden">
+                  Stop Camera
+                </button>
+                <button class="px-2 py-1 rounded-lg bg-white/5 text-gray-400 hover:text-white text-[11px] font-mono border border-white/10" onclick="switchTab('camera')">Expand</button>
+              </div>
             </div>
 
-            <!-- Ticker Feed Container -->
-            <div class="space-y-2.5 mt-3 max-h-[340px] overflow-y-auto pr-1" id="tickerContainer">
-              <!-- Item 1: Sarah Chen -->
-              <div class="p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="h-8 w-8 rounded-lg object-cover border border-white/10" />
-                  <div class="overflow-hidden">
-                    <span class="text-xs font-semibold text-white block truncate">Sarah Chen</span>
-                    <span class="text-[10px] font-mono text-gray-400">CS-2026-001 • Biometrics</span>
-                  </div>
+            <!-- Video Stream Container -->
+            <div class="relative my-4 h-[340px] rounded-xl bg-[#060912] border border-white/10 overflow-hidden flex items-center justify-center">
+              <!-- Real Hardware Video Element (Active only when camera started) -->
+              <video id="localVideo" class="absolute inset-0 w-full h-full object-cover hidden" autoplay playsinline muted></video>
+              <!-- Bounding box & landmark canvas overlay -->
+              <canvas id="cameraCanvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-20 hidden"></canvas>
+
+              <!-- Standby Overlay / Privacy Shield -->
+              <div id="camPlaceholder" class="flex flex-col items-center justify-center p-6 text-center space-y-3 z-10">
+                <div class="w-16 h-16 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-gray-400">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </div>
-                <div class="text-right">
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                    100% Match
-                  </span>
-                  <div class="text-[10px] font-mono text-gray-400 mt-1">10:14 AM</div>
+                <div>
+                  <h4 class="text-sm font-semibold text-white">Camera is in Standby Mode</h4>
+                  <p class="text-xs text-gray-400 font-mono mt-1 max-w-sm">Click "Start Camera" above to activate your browser webcam preview. Camera permission is only requested upon click.</p>
                 </div>
+                <div id="camAlertBox" class="hidden text-xs font-mono p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 max-w-md"></div>
               </div>
 
-              <!-- Item 2: Spoof Attempt -->
-              <div class="p-3 rounded-xl bg-rose-500/[0.04] border border-rose-500/20 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="h-8 w-8 rounded-lg object-cover border border-rose-500/40" />
-                  <div class="overflow-hidden">
-                    <span class="text-xs font-semibold text-rose-300 block truncate">Unauthorized Impostor</span>
-                    <span class="text-[10px] font-mono text-rose-400/80">Screen Replay Intercepted</span>
+              <!-- HUD Crosshair Guide (Shown when active) -->
+              <div id="hudOverlay" class="absolute inset-0 pointer-events-none hidden">
+                <div class="scan-line-anim"></div>
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <!-- Alignment Target -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-48 h-64 border border-cyan-500/40 rounded-3xl relative">
+                    <span class="absolute -top-3 left-4 px-2 py-0.5 rounded text-[10px] font-mono bg-surface border border-cyan-500/40 text-cyan-400">Position Face Here</span>
+                    <span class="absolute -bottom-3 left-4 px-2 py-0.5 rounded text-[10px] font-mono bg-surface border border-white/10 text-gray-400">Preview Only • No Upload</span>
                   </div>
-                </div>
-                <div class="text-right">
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/40 animate-pulse">
-                    Spoof
-                  </span>
-                  <div class="text-[10px] font-mono text-gray-400 mt-1">10:13 AM</div>
-                </div>
-              </div>
-
-              <!-- Item 3: Bunk Flagged -->
-              <div class="p-3 rounded-xl bg-amber-500/[0.04] border border-amber-500/20 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="h-8 w-8 rounded-lg object-cover border border-amber-500/40" />
-                  <div class="overflow-hidden">
-                    <span class="text-xs font-semibold text-amber-300 block truncate">Alex Mercer</span>
-                    <span class="text-[10px] font-mono text-gray-400">CS-2026-002 • Seat Vacated</span>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                    Bunked
-                  </span>
-                  <div class="text-[10px] font-mono text-gray-400 mt-1">10:11 AM</div>
                 </div>
               </div>
             </div>
+
+                        <!-- Real Face Recognition Live Action Toolbar -->
+            <div id="camActionsToolbar" class="flex flex-wrap items-center gap-2 mb-3">
+              <button id="btnRecognizeFace" onclick="recognizeLiveWebcamFace('localVideo', 'cameraCanvas', 'liveBioResults')" class="flex-1 py-2 px-3 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-cyan-500/10">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                Capture & Recognize Face
+              </button>
+              <button onclick="promptEnrollCurrentFace('localVideo')" class="py-2 px-3 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 text-xs font-mono transition-all">
+                Enroll My Face
+              </button>
+              <button onclick="seedBiometricTemplates()" title="Enrolls Sarah Chen & Alex Mercer templates from reference dataset" class="py-2 px-2.5 rounded-xl bg-white/5 text-gray-300 hover:text-white border border-white/10 text-xs font-mono transition-all">
+                Seed Templates
+              </button>
+            </div>
+
+            <!-- Recognition & Instructor Confirmation Output Container -->
+            <div id="liveBioResults" class="space-y-2 mb-3 max-h-[220px] overflow-y-auto hidden"></div>
+
+            <div class="flex items-center justify-between text-xs font-mono text-gray-400 pt-2 border-t border-white/5">
+              <div>Mode: <span id="camStatusMode" class="text-amber-400">Standby (Camera Off)</span></div>
+              <span id="camPrivacyLabel" class="text-gray-400 flex items-center gap-1">
+                🔒 Privacy Protected: No video frames stored or transmitted
+              </span>
+            </div>
           </div>
 
-          <div class="pt-3 border-t border-white/5 flex items-center justify-between text-xs text-gray-400 font-mono">
-            <span>Auto-sync active</span>
-            <button class="text-cyan-400 hover:underline text-[11px]">Export Session CSV →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Analytics Graphs -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Weekly Attendance Trends (8 cols) -->
-        <div class="lg:col-span-8 card-glass rounded-2xl p-6">
-          <div class="flex items-center justify-between mb-4">
+          <!-- Real-Time Activity Log Ticker (5 cols) -->
+          <div class="lg:col-span-5 card-glass rounded-2xl p-5 flex flex-col justify-between">
             <div>
-              <h3 class="text-sm font-bold text-white tracking-tight">Weekly Attendance & Spoof Telemetry</h3>
-              <p class="text-xs text-gray-400 font-mono mt-0.5">5-Day Verified Attendance vs. Intercepted Spoof Attacks</p>
+              <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                <div class="flex items-center gap-2">
+                  <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Verification Ticker</h3>
+                  <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LIVE DB</span>
+                </div>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 text-gray-300 border border-white/10" id="tickerCount">0 records</span>
+              </div>
+
+              <!-- Ticker Feed Container (Only renders real verified DB records) -->
+              <div class="space-y-2.5 mt-3 max-h-[340px] overflow-y-auto pr-1" id="tickerContainer">
+                <div class="p-4 text-center text-gray-500 font-mono text-xs">
+                  Loading attendance events from database...
+                </div>
+              </div>
             </div>
-            <div class="flex items-center gap-4 text-xs font-mono">
-              <span class="flex items-center gap-1.5 text-gray-300"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Present</span>
-              <span class="flex items-center gap-1.5 text-gray-500"><span class="h-2 w-2 rounded-full bg-gray-500"></span> Absent</span>
-              <span class="flex items-center gap-1.5 text-rose-400"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Spoofs</span>
+
+            <div class="pt-3 border-t border-white/5 flex items-center justify-between text-xs text-gray-400 font-mono">
+              <span>Synchronized with SQLite</span>
+              <button onclick="switchTab('reports')" class="text-cyan-400 hover:underline text-[11px]">Full Audit Log &rarr;</button>
             </div>
-          </div>
-          <div class="h-60 w-full">
-            <canvas id="attendanceChart"></canvas>
           </div>
         </div>
 
-        <!-- Attention Breakdown (4 cols) -->
-        <div class="lg:col-span-4 card-glass rounded-2xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-bold text-white tracking-tight">Class Attention Breakdown</h3>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">MediaPipe Pose</span>
+        <!-- Manual Attendance Quick-Action Panel (Task 4) -->
+        <div class="card-glass rounded-2xl p-6 border-cyan-500/30">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm font-bold text-white tracking-tight">Manual Attendance Recording & Verification</h3>
+                <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">DIRECT DB ACTION</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-0.5">Select an enrolled student to record attendance directly into SQLite with duplicate-prevention enforcement.</p>
             </div>
-            <div class="h-44 flex items-center justify-center">
-              <canvas id="attentionChart"></canvas>
+            <div id="manualFeedback" class="hidden text-xs font-mono px-3 py-1.5 rounded-xl"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 mt-4 items-center">
+            <div class="sm:col-span-5">
+              <label class="block text-[11px] font-mono text-gray-400 mb-1">Select Enrolled Student:</label>
+              <select id="selectStudent" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-500">
+                <option value="">Loading enrolled students...</option>
+              </select>
             </div>
-            <div class="space-y-2 mt-4 font-mono text-xs">
-              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-cyan-400"></span> Whiteboard Focus</span><span class="text-white font-bold">72%</span></div>
-              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Active Note-Taking</span><span class="text-white font-bold">18%</span></div>
-              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Smartphone Distraction</span><span class="text-white font-bold">7%</span></div>
-              <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber-400"></span> Turned Sideways</span><span class="text-white font-bold">3%</span></div>
+
+            <div class="sm:col-span-3">
+              <label class="block text-[11px] font-mono text-gray-400 mb-1">Attendance Status:</label>
+              <select id="selectStatus" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-500">
+                <option value="PRESENT">PRESENT (Verified)</option>
+                <option value="ABSENT">ABSENT</option>
+                <option value="SPOOF_DETECTED">SPOOF_DETECTED (Test)</option>
+              </select>
+            </div>
+
+            <div class="sm:col-span-4 flex items-end">
+              <button id="btnRecordAttendance" onclick="recordManualAttendance()" class="w-full mt-5 px-4 py-2.5 rounded-xl bg-brand-emerald text-black font-semibold text-xs hover:bg-emerald-400 shadow-glow-emerald transition-all flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                Record in Database
+              </button>
             </div>
           </div>
-          <p className="text-[11px] text-gray-400 border-t border-white/5 pt-3 mt-3">
-            💡 AI Insight: Whiteboard focus remained above 85% during interactive demo.
-          </p>
+        </div>
+
+        <!-- Analytics Graphs -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Weekly Attendance Trends (8 cols) -->
+          <div class="lg:col-span-8 card-glass rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm font-bold text-white tracking-tight">Daily Attendance Telemetry (5-Day Trend)</h3>
+                  <span id="weeklySourceTag" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">LIVE DB DATA</span>
+                </div>
+                <p id="weeklySubText" class="text-xs text-gray-400 font-mono mt-0.5">Aggregated actual records from attendx.db for the last 5 days.</p>
+              </div>
+              <div class="flex items-center gap-4 text-xs font-mono">
+                <span class="flex items-center gap-1.5 text-gray-300"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Present</span>
+                <span class="flex items-center gap-1.5 text-gray-500"><span class="h-2 w-2 rounded-full bg-gray-500"></span> Absent</span>
+                <span class="flex items-center gap-1.5 text-rose-400"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Spoofs</span>
+              </div>
+            </div>
+            <div class="h-60 w-full">
+              <canvas id="attendanceChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Attention Breakdown (4 cols) -->
+          <div class="lg:col-span-4 card-glass rounded-2xl p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                  <h3 class="text-sm font-bold text-white tracking-tight">Class Attention Breakdown</h3>
+                  <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">DEMO DATA</span>
+                </div>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">MediaPipe Pose</span>
+              </div>
+              <div class="h-44 flex items-center justify-center">
+                <canvas id="attentionChart"></canvas>
+              </div>
+              <div class="space-y-2 mt-4 font-mono text-xs">
+                <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-cyan-400"></span> Whiteboard Focus</span><span class="text-white font-bold">72%</span></div>
+                <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Active Note-Taking</span><span class="text-white font-bold">18%</span></div>
+                <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Smartphone Distraction</span><span class="text-white font-bold">7%</span></div>
+                <div class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber-400"></span> Turned Sideways</span><span class="text-white font-bold">3%</span></div>
+              </div>
+            </div>
+            <p class="text-[11px] text-gray-400 border-t border-white/5 pt-3 mt-3">
+              💡 Note: Synthetic MediaPipe pose estimation benchmark. Real estimation requires running `cctv_worker/worker.py`.
+            </p>
+          </div>
         </div>
       </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: LIVE CAMERA FEED (EXPANDED)        -->
+      <!-- ========================================== -->
+      <div id="view-camera" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex items-center justify-between pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Camera Feed Monitor & Hardware Testing</h2>
+                <span id="camExpandedBadge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">STANDBY (OFFLINE)</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Direct browser camera preview. Camera frames are not sent to any external server or saved to disk.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button id="btnExpandedStart" onclick="startCamera()" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 text-xs font-mono transition-all">
+                Start Camera
+              </button>
+              <button id="btnExpandedStop" onclick="stopCamera()" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/40 hover:bg-rose-500/30 text-xs font-mono transition-all hidden">
+                Stop Camera
+              </button>
+            </div>
+          </div>
+
+          <div class="relative my-6 h-[480px] rounded-2xl bg-[#060912] border border-white/10 overflow-hidden flex items-center justify-center">
+            <video id="expandedVideo" class="absolute inset-0 w-full h-full object-cover hidden" autoplay playsinline muted></video>
+            <canvas id="expandedCameraCanvas" class="absolute inset-0 w-full h-full object-cover pointer-events-none z-20 hidden"></canvas>
+
+            <div id="expandedPlaceholder" class="flex flex-col items-center justify-center p-8 text-center space-y-3 z-10">
+              <div class="w-20 h-20 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-gray-400">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </div>
+              <h4 class="text-base font-semibold text-white">Live Camera Preview Standby</h4>
+              <p class="text-xs text-gray-400 font-mono max-w-md">Click "Start Camera" above to test your local webcam stream. Permission will be requested once.</p>
+              <div id="expandedAlertBox" class="hidden text-xs font-mono p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 max-w-md"></div>
+            </div>
+
+            <!-- Targeting Center Crosshairs -->
+            <div id="expandedHudOverlay" class="absolute inset-0 pointer-events-none hidden">
+              <div class="scan-line-anim"></div>
+              <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#06B6D4_1px,transparent_1px)] [background-size:20px_20px]"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-32 h-32 border border-cyan-500/30 rounded-full flex items-center justify-center">
+                  <div class="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                </div>
+              </div>
+              <div class="absolute bottom-4 left-6 px-3 py-1.5 rounded-xl bg-surface/90 border border-white/10 text-xs font-mono text-cyan-300">
+                Stream: Local WebRTC • Face Recognition: Standby / Uncoupled • Storage: None
+              </div>
+            </div>
+          </div>
+
+          <!-- Expanded Face Recognition Action Toolbar -->
+          <div class="flex flex-wrap items-center gap-3 my-4 font-mono text-xs">
+            <button onclick="recognizeLiveWebcamFace('expandedVideo', 'expandedCameraCanvas', 'expandedBioResults')" class="py-2.5 px-4 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 font-bold transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              Capture & Recognize Face (Expanded)
+            </button>
+            <button onclick="promptEnrollCurrentFace('expandedVideo')" class="py-2.5 px-4 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 transition-all">
+              Enroll Face from Preview
+            </button>
+            <button onclick="seedBiometricTemplates()" class="py-2.5 px-3 rounded-xl bg-white/5 text-gray-300 hover:text-white border border-white/10 transition-all">
+              Seed Templates (Sarah & Alex)
+            </button>
+          </div>
+          <div id="expandedBioResults" class="space-y-2 mb-4 max-h-[260px] overflow-y-auto hidden"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-white/5 font-mono text-xs">
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+              <span class="text-gray-400">Camera Permission Status</span>
+              <p id="camPermText" class="text-white font-bold mt-1">Prompt on Demand</p>
+              <p class="text-[11px] text-gray-500 mt-0.5">Camera is never accessed without user interaction</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+              <span class="text-gray-400">Biometric Privacy Guard</span>
+              <p class="text-emerald-400 font-bold mt-1">Zero Frame Upload</p>
+              <p class="text-[11px] text-gray-500 mt-0.5">Biometrics are only processed via authorized backend vector API</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+              <span class="text-gray-400">CCTV Automation Agent</span>
+              <p class="text-cyan-400 font-bold mt-1">python cctv_worker/worker.py</p>
+              <p class="text-[11px] text-gray-500 mt-0.5">Dedicated background worker for RTSP campus streams</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 3: STUDENT MANAGEMENT & ROSTER        -->
+      <!-- ========================================== -->
+      <div id="view-analytics" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Enrolled Student Roster & Live Status</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">GET /api/students</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Live SQLite student records, current session attendance, and parent alert contact information.</p>
+            </div>
+            <button onclick="toggleEnrollModal(true)" class="px-3.5 py-2 rounded-xl bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/40 hover:bg-brand-cyan/30 text-xs font-mono transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              Enroll New Student
+            </button>
+          </div>
+
+          <!-- Dynamic Student Cards Container -->
+          <div id="studentsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5 my-6">
+            <div class="col-span-2 text-center py-8 text-gray-500 font-mono text-xs">
+              Loading student roster from SQLite...
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Enrollment Form Modal -->
+        <div id="enrollModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+          <div class="card-glass rounded-2xl p-6 max-w-lg w-full border border-cyan-500/40 space-y-4">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 class="text-sm font-bold text-white">Enroll New Student in Database</h3>
+              <button onclick="toggleEnrollModal(false)" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div class="space-y-3 font-mono text-xs">
+              <div>
+                <label class="block text-gray-400 mb-1">Full Name:</label>
+                <input id="enrollName" type="text" placeholder="e.g. Maya Patel" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+              <div>
+                <label class="block text-gray-400 mb-1">Email Address:</label>
+                <input id="enrollEmail" type="email" placeholder="e.g. maya.patel@student.attendx.ai" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+              <div>
+                <label class="block text-gray-400 mb-1">Roll Number:</label>
+                <input id="enrollRoll" type="text" placeholder="e.g. CS-2026-003" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-gray-400 mb-1">Parent Name:</label>
+                  <input id="enrollParentName" type="text" placeholder="e.g. Kiran Patel" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-1">Parent Phone:</label>
+                  <input id="enrollParentPhone" type="text" placeholder="e.g. +14155554321" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+                </div>
+              </div>
+              <div id="enrollError" class="hidden text-rose-400 text-[11px] p-2 rounded bg-rose-500/10 border border-rose-500/30"></div>
+            </div>
+            <div class="flex justify-end gap-3 pt-3 border-t border-white/10">
+              <button onclick="toggleEnrollModal(false)" class="px-3 py-1.5 rounded-xl border border-white/10 text-xs font-mono text-gray-400 hover:text-white">Cancel</button>
+              <button onclick="submitEnrollStudent()" class="px-4 py-1.5 rounded-xl bg-brand-cyan text-black font-semibold text-xs hover:bg-cyan-300 transition-all">Submit Enrollment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 4: ATTENDANCE REPORTS (LIVE API DATA) -->
+      <!-- ========================================== -->
+      <div id="view-reports" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Historical Attendance Audit Reports</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">GET /api/attendance/reports</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Immutable SQLite audit records with geofence distance and anti-spoof score telemetry.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button onclick="exportReportsCsv()" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 text-xs font-mono transition-all flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export CSV
+              </button>
+              <button onclick="fetchLiveReports()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 text-xs font-mono transition-all flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                Refresh
+              </button>
+            </div>
+          </div>
+
+          <!-- Reports Filter Bar -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 my-4">
+            <div class="sm:col-span-8">
+              <input id="reportSearch" type="text" oninput="applyReportFilter()" placeholder="Search by student name or roll number..." class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500" />
+            </div>
+            <div class="sm:col-span-4">
+              <select id="reportStatusFilter" onchange="applyReportFilter()" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-500">
+                <option value="">All Statuses</option>
+                <option value="PRESENT">PRESENT</option>
+                <option value="ABSENT">ABSENT</option>
+                <option value="SPOOF_DETECTED">SPOOF_DETECTED</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Reports Table -->
+          <div class="overflow-x-auto my-4">
+            <table class="w-full text-left text-xs font-mono">
+              <thead>
+                <tr class="border-b border-white/10 text-gray-400 uppercase text-[10px]">
+                  <th class="py-3 px-4">Student</th>
+                  <th class="py-3 px-4">Roll #</th>
+                  <th class="py-3 px-4">Subject</th>
+                  <th class="py-3 px-4">Timestamp</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4">Match %</th>
+                  <th class="py-3 px-4">Distance</th>
+                  <th class="py-3 px-4">Method</th>
+                </tr>
+              </thead>
+              <tbody id="reportsTableBody" class="divide-y divide-white/5 text-gray-200">
+                <tr>
+                  <td colspan="8" class="py-8 text-center text-gray-500">Loading reports from backend database...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/5 text-xs text-gray-400 font-mono">
+            <span id="reportsSummaryText">Showing real records from SQLite (attendx.db)</span>
+            <span id="reportsPagination" class="text-cyan-400">Page 1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 5: SETTINGS & BACKEND CONFIG          -->
+      <!-- ========================================== -->
+      <div id="view-settings" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="pb-4 border-b border-white/5">
+            <h2 class="text-base font-bold text-white tracking-tight">System & Security Configuration</h2>
+            <p class="text-xs text-gray-400 font-mono mt-1">Backend connection endpoints, AI biometric parameters, and geofence anchors.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 font-mono text-xs">
+            <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+              <h3 class="text-sm font-bold text-white">Backend Connection</h3>
+              <div>
+                <span class="text-gray-400 block">API Base Endpoint</span>
+                <input id="inputApiUrl" type="text" placeholder="Auto-detected: e.g. /api or https://domain/api" class="w-full mt-1 bg-surface border border-white/10 rounded-xl px-3 py-2 text-cyan-400 font-mono" />
+              </div>
+              <button onclick="saveApiUrl()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 transition-all">
+                Update & Reconnect
+              </button>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+              <h3 class="text-sm font-bold text-white">Active Session Geofence Configuration</h3>
+              <div>
+                <span class="text-gray-400 block">Geofence Radius (meters)</span>
+                <input id="inputGeofence" type="number" value="20" min="5" max="500" class="w-full mt-1 bg-surface border border-white/10 rounded-xl px-3 py-2 text-emerald-400 font-mono" />
+              </div>
+              <button onclick="saveGeofenceRadius()" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 transition-all">
+                Save Geofence Radius
+              </button>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 font-mono text-xs space-y-2">
+            <h4 class="text-xs font-bold text-gray-300 uppercase">System Security Parameters</h4>
+            <div class="flex justify-between items-center py-1 border-b border-white/5">
+              <span class="text-gray-400">Biometric Cosine Similarity Threshold</span>
+              <span class="text-emerald-400 font-bold">0.75 (75%)</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-white/5">
+              <span class="text-gray-400">Anti-Spoof EAR Liveness Threshold</span>
+              <span class="text-emerald-400 font-bold">0.85 (85%)</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span class="text-gray-400">JWT Token Expiry</span>
+              <span class="text-white font-bold">480 minutes (8 hrs)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ========================================== -->
+      <!-- VIEW 6: FACE RECOGNITION & LIVENESS LAB     -->
+      <!-- ========================================== -->
+      <div id="view-biometrics" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">AI Multi-Face Detection & Liveness Engine</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">OPERATIONAL: LIVE</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Multi-face bounding box extraction, ArcFace 128-d cosine vector matching, anti-spoof liveness gating, and educator review queue.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Threshold: 0.75 Cosine</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 my-5 text-xs font-mono text-amber-300 flex items-start gap-3">
+            <svg class="w-5 h-5 flex-shrink-0 text-amber-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <div>
+              <strong class="block font-bold">Biometric Architecture Clarification:</strong>
+              Local HTML5 webcam feeds in browsers run strictly on client memory (zero raw frame transmission). Real biometric identity matching operates on normalized 128-d floating vectors processed via backend vector pipeline.
+            </div>
+          </div>
+
+          <!-- Multi-Face Batch Detection Simulator -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-5 p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4 font-mono text-xs">
+              <h3 class="text-sm font-bold text-white font-sans">Simulate Multi-Face Classroom Frame</h3>
+              <p class="text-gray-400">Submit a multi-target bounding box batch into <code class="text-cyan-400">/api/face-engine/analyze-batch</code> to test concurrent matching and spoof rejection.</p>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Target Session:</label>
+                <select id="bioBatchSession" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white">
+                  <option value="1">Session #1 — Neural Networks & CV</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Simulated Faces in Frame:</label>
+                <select id="bioFaceCount" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white">
+                  <option value="enrolled_plus_spoof">3 Faces: 1 Enrolled Match + 1 Low Conf + 1 Spoof Attack</option>
+                  <option value="all_enrolled">2 Faces: Both Enrolled Students</option>
+                  <option value="pure_spoof">1 Face: High-confidence Spoof Screen Attack</option>
+                </select>
+              </div>
+
+              <button onclick="runBatchFaceAnalysis()" id="btnRunBioBatch" class="w-full py-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 font-bold transition-all flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
+                Execute Vector Batch Analysis
+              </button>
+            </div>
+
+            <div class="lg:col-span-7 p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 border-b border-white/5 font-mono text-xs">
+                  <span class="text-white font-bold">Analysis Output & Decision Queue</span>
+                  <span id="bioEnginePerf" class="text-gray-400">Latency: 0ms</span>
+                </div>
+                <div id="bioBatchResults" class="space-y-3 mt-4 max-h-[360px] overflow-y-auto pr-1">
+                  <div class="text-center py-12 text-gray-500 font-mono text-xs">
+                    No batch analyzed yet. Click "Execute Vector Batch Analysis" to test.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 7: CONTINUOUS PRESENCE ANALYTICS      -->
+      <!-- ========================================== -->
+      <div id="view-presence" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Continuous Attendance & Classroom Presence</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">OPERATIONAL: DEMO</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Non-invasive periodic sampling (15m / 30m / 45m checkpoints) to verify classroom seat retention and detect mid-lecture bunking.</p>
+            </div>
+            <button onclick="fetchPresenceTimeline()" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 text-xs font-mono transition-all">
+              Refresh Timeline Checkpoints
+            </button>
+          </div>
+
+          <!-- Policy banner -->
+          <div class="p-4 rounded-xl bg-white/[0.02] border border-white/10 my-5 text-xs font-mono text-gray-300">
+            <span class="text-cyan-400 font-bold">Privacy-Preserving Sampling Policy:</span>
+            Headcount verification executes strictly at scheduled 15-minute intervals. Zero continuous video streaming or biometric recording occurs during study hours.
+          </div>
+
+          <!-- Timeline Grid Container -->
+          <div id="presenceTimelineContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5 my-6">
+            <div class="col-span-3 text-center py-8 text-gray-500 font-mono text-xs">
+              Loading presence timeline checkpoints...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 8: GEOFENCING & BLE PROXIMITY          -->
+      <!-- ========================================== -->
+      <div id="view-proximity" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Dual-Layer BLE Proximity & Geofence Perimeter</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">OPERATIONAL: DEMO</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Macro GPS geofencing paired with micro Bluetooth Low Energy (BLE) RSSI signal-decay distance verification.</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-purple-500/10 text-purple-400 border border-purple-500/30">Log-Distance Path Loss</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 my-6 font-mono text-xs">
+            <!-- BLE Live Calculator -->
+            <div class="lg:col-span-6 p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+              <h3 class="text-sm font-bold text-white font-sans">BLE RSSI Distance Calculator</h3>
+              <p class="text-gray-400">Test Bluetooth Low Energy signal strength path loss into <code class="text-cyan-400">/api/proximity/verify-ble</code>.</p>
+
+              <div>
+                <div class="flex justify-between text-gray-400 mb-1">
+                  <span>Measured RSSI (dBm):</span>
+                  <span id="bleRssiLabel" class="text-cyan-400 font-bold">-65 dBm</span>
+                </div>
+                <input id="bleRssiSlider" type="range" min="-95" max="-35" value="-65" oninput="document.getElementById('bleRssiLabel').innerText = this.value + ' dBm'" class="w-full" />
+              </div>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Beacon Tx Power at 1 Meter (dBm):</label>
+                <input id="bleTxPower" type="number" value="-59" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+
+              <button onclick="calculateBleProximity()" class="w-full py-2.5 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/40 hover:bg-purple-500/30 font-bold transition-all">
+                Evaluate BLE Signal Range
+              </button>
+
+              <div id="bleResultBox" class="hidden p-4 rounded-xl bg-surface border border-white/10 space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Estimated Distance:</span>
+                  <span id="bleDistValue" class="text-emerald-400 font-bold text-sm">-- m</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Classroom Proximity:</span>
+                  <span id="bleProximityBadge" class="px-2 py-0.5 rounded text-[10px] font-bold">--</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Real Macro Geofence & Browser Location Acquisition -->
+            <div class="lg:col-span-6 p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-white font-sans">Real GPS Geofence & Perimeter Anchor</h3>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">REAL HARDWARE API</span>
+              </div>
+              <p class="text-gray-400 text-xs">Acquires real device coordinates via <code class="text-cyan-400">navigator.geolocation</code> and validates against classroom coordinates using the Haversine formula.</p>
+
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <label class="block text-gray-400 mb-0.5">Classroom Latitude:</label>
+                  <input id="geoAnchorLat" type="number" step="0.000001" value="37.774900" class="w-full bg-surface border border-white/10 rounded-xl px-2.5 py-1.5 text-white font-mono" />
+                </div>
+                <div>
+                  <label class="block text-gray-400 mb-0.5">Classroom Longitude:</label>
+                  <input id="geoAnchorLon" type="number" step="0.000001" value="-122.419400" class="w-full bg-surface border border-white/10 rounded-xl px-2.5 py-1.5 text-white font-mono" />
+                </div>
+                <div class="col-span-2">
+                  <label class="block text-gray-400 mb-0.5">Allowed Radius (meters):</label>
+                  <input id="geoAnchorRadius" type="number" value="20" class="w-full bg-surface border border-white/10 rounded-xl px-2.5 py-1.5 text-emerald-400 font-mono" />
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <button onclick="acquireDeviceGPSLocation()" class="w-full py-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 font-bold transition-all flex items-center justify-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  Acquire Real Device Location
+                </button>
+
+                <!-- Instructor Override Option -->
+                <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1.5 text-xs">
+                  <label class="flex items-center gap-2 cursor-pointer text-gray-300">
+                    <input type="checkbox" id="geoOverrideCheck" class="rounded bg-surface border-white/20 text-cyan-500" />
+                    <span class="font-bold text-amber-300">Instructor Manual Override</span>
+                  </label>
+                  <input id="geoOverrideReason" type="text" placeholder="Override reason (e.g. Field trip / GPS signal blocked)" class="w-full bg-surface border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white hidden" />
+                </div>
+              </div>
+
+              <!-- Real Geolocation Validation Output -->
+              <div id="geoResultBox" class="hidden p-3.5 rounded-xl bg-surface border border-white/10 space-y-1.5 font-mono text-xs">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Device Location:</span>
+                  <span id="geoDevCoords" class="text-white font-bold">--</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">GPS Accuracy:</span>
+                  <span id="geoDevAccuracy" class="text-cyan-400">--</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Haversine Distance:</span>
+                  <span id="geoDevDistance" class="text-emerald-400 font-bold">--</span>
+                </div>
+                <div class="flex justify-between items-center pt-1 border-t border-white/5">
+                  <span class="text-gray-400">Perimeter Status:</span>
+                  <span id="geoPerimeterBadge" class="px-2 py-0.5 rounded text-[10px] font-bold">--</span>
+                </div>
+                <div id="geoServerMsg" class="text-[11px] text-gray-400 italic mt-1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 9: GAIT & POSTURE RESEARCH MODULE     -->
+      <!-- ========================================== -->
+      <div id="view-gait" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Gait & Posture Recognition Research Module</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30">OPERATIONAL: RESEARCH SPECIFICATION</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Non-invasive ergonomic wellness and behavioral kinetics specification based on MediaPipe 33-keypoint skeletal tracking.</p>
+            </div>
+            <button onclick="fetchGaitCatalog()" class="px-3.5 py-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 hover:bg-amber-500/30 text-xs font-mono transition-all">
+              Load Metrics Catalog
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 my-6 font-mono text-xs">
+            <!-- Posture Analysis Tester -->
+            <div class="lg:col-span-5 p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+              <h3 class="text-sm font-bold text-white font-sans">Simulate Posture Vector Analysis</h3>
+              <p class="text-gray-400">Evaluate skeletal keypoint angles into <code class="text-cyan-400">/api/research/posture-analysis</code>.</p>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Torso Tilt Angle (degrees):</label>
+                <input id="postureTilt" type="number" value="8.5" step="0.5" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Shoulder Symmetry Coefficient (0.0 to 1.0):</label>
+                <input id="postureSymmetry" type="number" value="0.95" step="0.01" max="1" min="0" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Slouch Index (0.0 = erect, 1.0 = heavy slouch):</label>
+                <input id="postureSlouch" type="number" value="0.12" step="0.01" max="1" min="0" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+
+              <button onclick="simulatePostureAnalysis()" class="w-full py-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 hover:bg-amber-500/30 font-bold transition-all">
+                Analyze Ergonomic State
+              </button>
+
+              <div id="postureResultBox" class="hidden p-4 rounded-xl bg-surface border border-white/10 space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Posture State:</span>
+                  <span id="postureStateBadge" class="font-bold text-xs">--</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-400">Ergonomic Score:</span>
+                  <span id="postureScore" class="text-emerald-400 font-bold">-- / 100</span>
+                </div>
+                <div id="postureRec" class="text-[11px] text-gray-400 pt-1 border-t border-white/5"></div>
+              </div>
+            </div>
+
+            <!-- Skeletal Keypoint Metrics Catalog -->
+            <div class="lg:col-span-7 p-5 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                  <span class="text-white font-bold font-mono">MediaPipe 33-Keypoint Research Catalog</span>
+                  <span class="text-[10px] text-gray-400 font-mono">Non-Invasive Research</span>
+                </div>
+                <div id="gaitCatalogList" class="space-y-3 mt-4 max-h-[360px] overflow-y-auto pr-1">
+                  <div class="text-center py-12 text-gray-500 font-mono text-xs">
+                    Click "Load Metrics Catalog" to view keypoint specifications.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 10: TAMPER-EVIDENT AUDIT & BLOCKCHAIN  -->
+      <!-- ========================================== -->
+      <div id="view-audit" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Tamper-Evident SHA-256 Ledger & Blockchain Anchor</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">OPERATIONAL: LIVE</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Cryptographic sequential hash chaining with EVM Sepolia Testnet transaction receipts to prevent retrospective alteration.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="verifyAuditIntegrity()" id="btnVerifyChain" class="px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 text-xs font-mono transition-all flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Verify Cryptographic Chain
+              </button>
+            </div>
+          </div>
+
+          <!-- Integrity Alert Banner -->
+          <div id="chainIntegrityBanner" class="my-5 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs font-mono">
+            <div class="flex items-center gap-3">
+              <span class="h-3 w-3 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="chainIntegrityText" class="text-emerald-300 font-bold">Cryptographic Ledger Verified: All sequential blocks intact.</span>
+            </div>
+            <span class="text-gray-400" id="chainBlockCount">0 Blocks Anchored</span>
+          </div>
+
+          <!-- Ledger Blocks Container -->
+          <div class="space-y-3 font-mono text-xs" id="ledgerBlocksContainer">
+            <div class="text-center py-10 text-gray-500">
+              Loading cryptographic ledger blocks...
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 11: IOT & HARDWARE GATEWAY (ESP32)    -->
+      <!-- ========================================== -->
+      <div id="view-iot" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">ESP32-CAM & RFID Hardware Gateway</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">OPERATIONAL: DEMO</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Direct microcontroller integration for edge camera nodes and NFC/RFID physical badge entry.</p>
+            </div>
+            <button onclick="fetchIoTDevices()" class="px-3.5 py-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 text-xs font-mono transition-all">
+              Refresh Hardware Devices
+            </button>
+          </div>
+
+          <!-- Hardware Devices List -->
+          <div class="my-6">
+            <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider font-mono mb-3">Provisioned Edge Nodes</h3>
+            <div id="iotDevicesList" class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+              <div class="col-span-2 text-center py-6 text-gray-500">Loading IoT devices...</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/5 font-mono text-xs">
+            <!-- RFID Card Swipe Simulator -->
+            <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+              <h3 class="text-sm font-bold text-white font-sans">Simulate Physical RFID Badge Tap</h3>
+              <p class="text-gray-400">Emulate an RC522 badge scan into <code class="text-cyan-400">/api/iot/rfid-tap</code>. Enforces duplicate protection.</p>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Badge UID Hex:</label>
+                <select id="rfidBadgeSelect" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white">
+                  <option value="E2:80:68:1A">E2:80:68:1A — Sarah Chen (CS-2026-001)</option>
+                  <option value="B4:12:99:FC">B4:12:99:FC — Alex Mercer (CS-2026-002)</option>
+                  <option value="99:99:99:99">99:99:99:99 — Unknown Unregistered Card</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Target RFID Reader:</label>
+                <input id="rfidReaderId" type="text" value="RFID-READER-01" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+
+              <button onclick="simulateRfidTap()" class="w-full py-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 font-bold transition-all">
+                Simulate Physical Card Tap
+              </button>
+
+              <div id="rfidFeedback" class="hidden p-3 rounded-xl"></div>
+            </div>
+
+            <!-- ESP32-CAM Frame Ping Simulator -->
+            <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+              <h3 class="text-sm font-bold text-white font-sans">ESP32-CAM Frame Ping Gateway</h3>
+              <p class="text-gray-400">Simulate incoming frame telemetry from classroom edge camera nodes.</p>
+
+              <div>
+                <label class="block text-gray-400 mb-1">ESP32 Camera Node:</label>
+                <input id="esp32NodeId" type="text" value="ESP32-CAM-01" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white" />
+              </div>
+
+              <div>
+                <label class="block text-gray-400 mb-1">Capture Resolution:</label>
+                <select id="esp32Resolution" class="w-full bg-surface border border-white/10 rounded-xl px-3 py-2 text-white">
+                  <option value="VGA_640x480">VGA (640x480) - Optimal Latency</option>
+                  <option value="SVGA_800x600">SVGA (800x600)</option>
+                  <option value="HD_1280x720">HD (1280x720)</option>
+                </select>
+              </div>
+
+              <button onclick="simulateEsp32Frame()" class="w-full py-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 font-bold transition-all">
+                Transmit Frame Ping
+              </button>
+
+              <div id="esp32Feedback" class="hidden p-3 rounded-xl"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW 12: PREDICTIVE RISK & PARENT ALERTS   -->
+      <!-- ========================================== -->
+      <div id="view-predictions" class="space-y-6 hidden">
+        <div class="card-glass rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/5">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 class="text-base font-bold text-white tracking-tight">Predictive Attendance Risk & Parent Alerts</h2>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">OPERATIONAL: LIVE</span>
+              </div>
+              <p class="text-xs text-gray-400 font-mono mt-1">Calculates exam cutoff deficiency (< 75% cutoff threshold) and automatically dispatches parental SMS/Email alerts.</p>
+            </div>
+            <button onclick="fetchPredictionsRiskSummary()" class="px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/30 text-xs font-mono transition-all">
+              Refresh Risk Metrics
+            </button>
+          </div>
+
+          <!-- Risk Stats Row -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6 font-mono">
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5">
+              <span class="text-xs text-gray-400">Total Enrolled Cohort</span>
+              <p id="predTotalEnrolled" class="text-xl font-bold text-white mt-1">--</p>
+            </div>
+            <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20">
+              <span class="text-xs text-rose-300">Below 75% Mandatory Cutoff</span>
+              <p id="predAtRiskCount" class="text-xl font-bold text-rose-400 mt-1">--</p>
+            </div>
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <span class="text-xs text-emerald-300">Exam Qualified Cohort</span>
+              <p id="predSafeCount" class="text-xl font-bold text-emerald-400 mt-1">--</p>
+            </div>
+          </div>
+
+          <!-- Student Risk Table -->
+          <div class="overflow-x-auto my-6">
+                          <!-- Status Filter & Counter Strip -->
+              <div class="flex flex-wrap items-center gap-2 mb-3 font-mono text-[11px]">
+                <span class="text-gray-400 font-bold uppercase tracking-wider text-[10px]">Filter Status:</span>
+                <button type="button" onclick="filterAbsentAlerts('ALL')" id="filter-btn-all" class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">ALL (<span id="count-all">0</span>)</button>
+                <button type="button" onclick="filterAbsentAlerts('SENT')" id="filter-btn-sent" class="px-2 py-0.5 rounded bg-white/5 text-emerald-400 border border-white/10 hover:border-emerald-500/40">SENT (<span id="count-sent">0</span>)</button>
+                <button type="button" onclick="filterAbsentAlerts('PREVIEW')" id="filter-btn-preview" class="px-2 py-0.5 rounded bg-white/5 text-cyan-400 border border-white/10 hover:border-cyan-500/40">PREVIEW (<span id="count-preview">0</span>)</button>
+                <button type="button" onclick="filterAbsentAlerts('PENDING')" id="filter-btn-pending" class="px-2 py-0.5 rounded bg-white/5 text-amber-400 border border-white/10 hover:border-amber-500/40">PENDING (<span id="count-pending">0</span>)</button>
+                <button type="button" onclick="filterAbsentAlerts('FAILED')" id="filter-btn-failed" class="px-2 py-0.5 rounded bg-white/5 text-rose-400 border border-white/10 hover:border-rose-500/40">FAILED (<span id="count-failed">0</span>)</button>
+                <button type="button" onclick="filterAbsentAlerts('MISSING_PHONE')" id="filter-btn-missing" class="px-2 py-0.5 rounded bg-white/5 text-orange-400 border border-white/10 hover:border-orange-500/40">MISSING_PHONE (<span id="count-missing">0</span>)</button>
+                <button type="button" onclick="filterAbsentAlerts('CORRECTED_TO_PRESENT')" id="filter-btn-corrected" class="px-2 py-0.5 rounded bg-white/5 text-purple-300 border border-white/10 hover:border-purple-500/40">CORRECTED (<span id="count-corrected">0</span>)</button>
+              </div>
+              <table class="w-full text-left font-mono text-xs">
+              <thead>
+                <tr class="text-gray-400 border-b border-white/10 pb-2">
+                  <th class="py-2.5 px-3">Student</th>
+                  <th class="py-2.5 px-3">Roll No</th>
+                  <th class="py-2.5 px-3">Sessions (Present / Total)</th>
+                  <th class="py-2.5 px-3">Rate (%)</th>
+                  <th class="py-2.5 px-3">Risk Tier</th>
+                  <th class="py-2.5 px-3">Parent Contact</th>
+                  <th class="py-2.5 px-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="riskTableBody" class="divide-y divide-white/5">
+                <tr><td colspan="7" class="py-6 text-center text-gray-500">Loading risk assessments...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Absent Student Automatic SMS & Alerts Panel -->
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3">
+              <div>
+                <div class="flex items-center gap-2.5">
+                  <h3 class="text-sm font-bold text-white tracking-wide font-mono flex items-center gap-2">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Automatic Absent Student SMS & Notification Center
+                  </h3>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">AUTO-TRIGGER ON SESSION CLOSE</span>
+                </div>
+                <p class="text-xs text-gray-400 font-mono mt-1">
+                  Evaluates enrolled cohort upon session conclusion. Automatically dispatches absent alerts to student & parent mobile numbers with duplicate suppression.
+                </p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="triggerManualAbsentReconciliation()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs font-mono transition-all flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                  Reconcile & Notify Now
+                </button>
+                <button onclick="fetchAbsentAlerts()" class="px-3 py-1.5 rounded-xl bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10 text-xs font-mono transition-all">
+                  Refresh Log
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto my-4">
+              <table class="w-full text-left font-mono text-xs">
+                <thead>
+                  <tr class="text-gray-400 border-b border-white/10 pb-2">
+                    <th class="py-2.5 px-3">Student / Roll</th>
+                    <th class="py-2.5 px-3">Recipient Type</th>
+                    <th class="py-2.5 px-3">Recipient (Masked)</th>
+                    <th class="py-2.5 px-3">SMS Delivery Status</th>
+                    <th class="py-2.5 px-3">Provider</th>
+                    <th class="py-2.5 px-3">Message Preview</th>
+                    <th class="py-2.5 px-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="absentAlertsTableBody" class="divide-y divide-white/5">
+                  <tr><td colspan="7" class="py-6 text-center text-gray-500">Loading absent alerts...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Alert Dispatch History -->
+          <div class="pt-4 border-t border-white/5">
+            <div class="flex items-center justify-between pb-3">
+              <h3 class="text-xs font-bold text-white uppercase tracking-wider font-mono">Dispatched Parent Alert History</h3>
+              <span id="alertHistoryCount" class="text-[10px] font-mono text-gray-400">0 alerts sent</span>
+            </div>
+            <div id="alertHistoryList" class="space-y-2.5 font-mono text-xs">
+              <div class="text-center py-6 text-gray-500">Loading notification history...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 
-  <!-- Chart.js Setup Script & Live Ticker Simulator -->
+  <!-- Client JavaScript Logic -->
   <script>
-    // 1. Weekly Attendance Trends Line/Bar Chart
-    const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
-    new Chart(ctxAttendance, {
-      type: 'bar',
-      data: {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        datasets: [
-          {
-            label: 'Verified Present',
-            data: [1420, 1398, 1435, 1410, 1420],
-            backgroundColor: 'rgba(16, 185, 129, 0.75)',
-            borderColor: '#10B981',
-            borderRadius: 8,
-            barThickness: 28,
-          },
-          {
-            label: 'Unexcused Absent',
-            data: [23, 45, 8, 33, 23],
-            backgroundColor: 'rgba(75, 85, 99, 0.45)',
-            borderColor: '#4B5563',
-            borderRadius: 8,
-            barThickness: 28,
-          },
-          {
-            label: 'Spoof Intercepted',
-            data: [4, 2, 1, 5, 3],
-            backgroundColor: 'rgba(244, 63, 94, 0.85)',
-            borderColor: '#F43F5E',
-            borderRadius: 8,
-            barThickness: 28,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
+    // -------------------------------------------------------------
+    // Configuration & State
+    // -------------------------------------------------------------
+    // Dynamic API URL: auto-detects current production host or falls back to local port 8765
+    let API_BASE_URL = localStorage.getItem('attendx_api_url') || 
+                       window.__ATTENDX_API_URL__ || 
+                       (window.location.protocol === 'file:' || window.location.port === '5500' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                        ? 'http://127.0.0.1:8765/api' 
+                        : `${window.location.origin}/api`);
+    let jwtToken = localStorage.getItem('attendx_token') || null;
+    let enrolledStudents = [];
+    let allReportRecords = [];
+    let isSessionActive = true;
+    let attendanceChart = null;
+
+    // -------------------------------------------------------------
+    // 1. Charts Initialization
+    // -------------------------------------------------------------
+    function initCharts() {
+      const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+      attendanceChart = new Chart(ctxAttendance, {
+        type: 'bar',
+        data: {
+          labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+          datasets: [
+            {
+              label: 'Verified Present',
+              data: [0, 0, 0, 0, 0],
+              backgroundColor: 'rgba(16, 185, 129, 0.75)',
+              borderColor: '#10B981',
+              borderRadius: 8,
+              barThickness: 28,
+            },
+            {
+              label: 'Absent',
+              data: [0, 0, 0, 0, 0],
+              backgroundColor: 'rgba(75, 85, 99, 0.45)',
+              borderColor: '#4B5563',
+              borderRadius: 8,
+              barThickness: 28,
+            },
+            {
+              label: 'Spoof Intercepted',
+              data: [0, 0, 0, 0, 0],
+              backgroundColor: 'rgba(244, 63, 94, 0.85)',
+              borderColor: '#F43F5E',
+              borderRadius: 8,
+              barThickness: 28,
+            }
+          ]
         },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 } }
-          },
-          y: {
-            grid: { color: 'rgba(255, 255, 255, 0.05)' },
-            ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 } } },
+            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#9CA3AF', font: { family: 'Inter', size: 11 }, precision: 0 } }
           }
         }
-      }
-    });
+      });
 
-    // 2. Attention Breakdown Doughnut Chart
-    const ctxAttention = document.getElementById('attentionChart').getContext('2d');
-    new Chart(ctxAttention, {
-      type: 'doughnut',
-      data: {
-        labels: ['Board Focus', 'Active Notes', 'Smartphone', 'Turned Sideways'],
-        datasets: [{
-          data: [72, 18, 7, 3],
-          backgroundColor: ['#06B6D4', '#10B981', '#F43F5E', '#F59E0B'],
-          borderColor: '#111827',
-          borderWidth: 3,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '72%',
-        plugins: {
-          legend: { display: false }
+      const ctxAttention = document.getElementById('attentionChart').getContext('2d');
+      new Chart(ctxAttention, {
+        type: 'doughnut',
+        data: {
+          labels: ['Whiteboard Focus', 'Active Notes', 'Smartphone', 'Turned Sideways'],
+          datasets: [{
+            data: [72, 18, 7, 3],
+            backgroundColor: ['#06B6D4', '#10B981', '#F43F5E', '#F59E0B'],
+            borderColor: '#111827',
+            borderWidth: 3,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '72%',
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 2. Navigation Tab Switching
+    // -------------------------------------------------------------
+    function switchTab(tabId) {
+      const tabs = ['dashboard', 'camera', 'analytics', 'reports', 'settings', 'biometrics', 'presence', 'proximity', 'gait', 'audit', 'iot', 'predictions'];
+      tabs.forEach(t => {
+        const viewEl = document.getElementById(`view-${t}`);
+        const navEl = document.getElementById(`nav-${t}`);
+        if (viewEl) viewEl.classList.add('hidden');
+        if (navEl) {
+          navEl.classList.remove('bg-brand-cyan/10', 'text-brand-cyan', 'border-brand-cyan/30', 'shadow-[0_0_15px_-3px_rgba(6,182,212,0.25)]');
+          navEl.classList.add('text-gray-400');
+        }
+      });
+
+      const activeView = document.getElementById(`view-${tabId}`);
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      if (activeView) activeView.classList.remove('hidden');
+      if (activeNav) {
+        activeNav.classList.remove('text-gray-400');
+        activeNav.classList.add('bg-brand-cyan/10', 'text-brand-cyan', 'border', 'border-brand-cyan/30', 'shadow-[0_0_15px_-3px_rgba(6,182,212,0.25)]');
+      }
+
+      if (tabId === 'reports') fetchLiveReports();
+      if (tabId === 'analytics') fetchStudentsRoster();
+      if (tabId === 'audit') fetchAuditLedger();
+      if (tabId === 'predictions') { fetchPredictionsRiskSummary(); fetchNotificationHistory(); fetchAbsentAlerts(); }
+      if (tabId === 'presence') fetchPresenceTimeline();
+      if (tabId === 'proximity') fetchClassroomPerimeter();
+      if (tabId === 'iot') fetchIoTDevices();
+      if (tabId === 'gait') fetchGaitCatalog();
+    }
+
+    // -------------------------------------------------------------
+    // 3. Camera Controls (Task 3)
+    // -------------------------------------------------------------
+    let activeCameraStream = null;
+
+    async function startCamera() {
+      const localVideo = document.getElementById('localVideo');
+      const expandedVideo = document.getElementById('expandedVideo');
+      const placeholder = document.getElementById('camPlaceholder');
+      const expandedPlaceholder = document.getElementById('expandedPlaceholder');
+      const hud = document.getElementById('hudOverlay');
+      const expandedHud = document.getElementById('expandedHudOverlay');
+      const badge = document.getElementById('cameraBadge');
+      const expandedBadge = document.getElementById('camExpandedBadge');
+      const modeText = document.getElementById('camStatusMode');
+      const camDot = document.getElementById('camDot');
+      const btnStart = document.getElementById('btnStartCam');
+      const btnStop = document.getElementById('btnStopCam');
+      const btnExpandedStart = document.getElementById('btnExpandedStart');
+      const btnExpandedStop = document.getElementById('btnExpandedStop');
+      const permText = document.getElementById('camPermText');
+      const alertBox = document.getElementById('camAlertBox');
+      const expandedAlertBox = document.getElementById('expandedAlertBox');
+
+      if (alertBox) alertBox.classList.add('hidden');
+      if (expandedAlertBox) expandedAlertBox.classList.add('hidden');
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 1280 }, height: { ideal: 720 } }
+        });
+        activeCameraStream = stream;
+
+        if (localVideo) {
+          localVideo.srcObject = stream;
+          localVideo.classList.remove('hidden');
+        }
+        if (expandedVideo) {
+          expandedVideo.srcObject = stream;
+          expandedVideo.classList.remove('hidden');
+        }
+
+        if (placeholder) placeholder.classList.add('hidden');
+        if (expandedPlaceholder) expandedPlaceholder.classList.add('hidden');
+        if (hud) hud.classList.remove('hidden');
+        if (expandedHud) expandedHud.classList.remove('hidden');
+
+        if (badge) {
+          badge.innerText = 'HARDWARE PREVIEW (ACTIVE)';
+          badge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold';
+        }
+        if (expandedBadge) {
+          expandedBadge.innerText = 'HARDWARE PREVIEW (ACTIVE)';
+          expandedBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold';
+        }
+        if (modeText) modeText.innerText = 'Live Hardware Video (Face Recognition: Standby)';
+        if (camDot) camDot.className = 'h-2 w-2 rounded-full bg-emerald-400 animate-pulse';
+
+        if (btnStart) btnStart.classList.add('hidden');
+        if (btnStop) btnStop.classList.remove('hidden');
+        if (btnExpandedStart) btnExpandedStart.classList.add('hidden');
+        if (btnExpandedStop) btnExpandedStop.classList.remove('hidden');
+        if (permText) permText.innerText = 'Granted by Browser';
+
+      } catch (err) {
+        const errMsg = `Camera Access Error: ${err.name || 'Unavailable'} — ${err.message || 'Permission denied or no webcam detected.'}`;
+        if (alertBox) {
+          alertBox.innerText = errMsg;
+          alertBox.classList.remove('hidden');
+        }
+        if (expandedAlertBox) {
+          expandedAlertBox.innerText = errMsg;
+          expandedAlertBox.classList.remove('hidden');
+        }
+        if (permText) permText.innerText = 'Permission Denied / Device Error';
+      }
+    }
+
+    function stopCamera() {
+      if (activeCameraStream) {
+        activeCameraStream.getTracks().forEach(track => track.stop());
+        activeCameraStream = null;
+      }
+
+      const localVideo = document.getElementById('localVideo');
+      const expandedVideo = document.getElementById('expandedVideo');
+      const placeholder = document.getElementById('camPlaceholder');
+      const expandedPlaceholder = document.getElementById('expandedPlaceholder');
+      const hud = document.getElementById('hudOverlay');
+      const expandedHud = document.getElementById('expandedHudOverlay');
+      const badge = document.getElementById('cameraBadge');
+      const expandedBadge = document.getElementById('camExpandedBadge');
+      const modeText = document.getElementById('camStatusMode');
+      const camDot = document.getElementById('camDot');
+      const btnStart = document.getElementById('btnStartCam');
+      const btnStop = document.getElementById('btnStopCam');
+      const btnExpandedStart = document.getElementById('btnExpandedStart');
+      const btnExpandedStop = document.getElementById('btnExpandedStop');
+
+      if (localVideo) { localVideo.srcObject = null; localVideo.classList.add('hidden'); }
+      if (expandedVideo) { expandedVideo.srcObject = null; expandedVideo.classList.add('hidden'); }
+      if (placeholder) placeholder.classList.remove('hidden');
+      if (expandedPlaceholder) expandedPlaceholder.classList.remove('hidden');
+      if (hud) hud.classList.add('hidden');
+      if (expandedHud) expandedHud.classList.add('hidden');
+
+      if (badge) {
+        badge.innerText = 'STANDBY (OFFLINE)';
+        badge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30';
+      }
+      if (expandedBadge) {
+        expandedBadge.innerText = 'STANDBY (OFFLINE)';
+        expandedBadge.className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/30';
+      }
+      if (modeText) modeText.innerText = 'Standby (Camera Off)';
+      if (camDot) camDot.className = 'h-2 w-2 rounded-full bg-amber-400';
+
+      if (btnStart) btnStart.classList.remove('hidden');
+      if (btnStop) btnStop.classList.add('hidden');
+      if (btnExpandedStart) btnExpandedStart.classList.remove('hidden');
+      if (btnExpandedStop) btnExpandedStop.classList.add('hidden');
+    }
+
+    // -------------------------------------------------------------
+    // 4. Authentication & Resilient API Fetch Helper
+    // -------------------------------------------------------------
+    let isLoggedOut = localStorage.getItem('attendx_is_logged_out') === 'true';
+
+    function updateAuthUI() {
+      const btnLogin = document.getElementById('btnLogin');
+      const btnLogout = document.getElementById('btnLogout');
+      const profileStatus = document.getElementById('profileOnlineDot');
+      if (isLoggedOut) {
+        if (btnLogin) btnLogin.classList.remove('hidden');
+        if (btnLogout) btnLogout.classList.add('hidden');
+        if (profileStatus) profileStatus.className = 'absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-amber-400 border-2 border-slate-900';
+      } else {
+        if (btnLogin) btnLogin.classList.add('hidden');
+        if (btnLogout) btnLogout.classList.remove('hidden');
+        if (profileStatus) profileStatus.className = 'absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 border-2 border-slate-900';
+      }
+    }
+
+    async function getAuthToken(forceRefresh = false) {
+      if (isLoggedOut) return null;
+      if (jwtToken && !forceRefresh) return jwtToken;
+      try {
+        const res = await fetch(`${API_BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: 'teacher@attendx.ai', password: 'Teacher@123' })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          jwtToken = data.access_token;
+          localStorage.setItem('attendx_token', jwtToken);
+          localStorage.removeItem('attendx_is_logged_out');
+          isLoggedOut = false;
+          updateAuthUI();
+          return jwtToken;
+        } else {
+          localStorage.removeItem('attendx_token');
+          jwtToken = null;
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+      }
+      return null;
+    }
+
+    function handleLogout() {
+      isLoggedOut = true;
+      localStorage.setItem('attendx_is_logged_out', 'true');
+      localStorage.removeItem('attendx_token');
+      jwtToken = null;
+      updateAuthUI();
+      const statusText = document.getElementById('backendStatusText');
+      if (statusText) statusText.innerText = 'Session Logged Out — Telemetry Paused';
+      const statusDot = document.getElementById('backendDot');
+      if (statusDot) statusDot.className = 'h-2 w-2 rounded-full bg-amber-400';
+      showFeedback('Logged out of educator session. In-memory and cached tokens removed.', 'warning');
+    }
+
+    async function handleLogin() {
+      isLoggedOut = false;
+      localStorage.removeItem('attendx_is_logged_out');
+      const token = await getAuthToken(true);
+      if (token) {
+        showFeedback('✓ Authenticated educator session successfully.', 'success');
+        syncWithBackend();
+        fetchWeeklyAnalytics();
+        fetchStudentsRoster();
+        fetchLiveReports();
+      } else {
+        showFeedback('Authentication failed. Check credentials.', 'error');
+      }
+    }
+
+    async function authFetch(url, options = {}) {
+      if (isLoggedOut) {
+        return new Response(JSON.stringify({ detail: 'Unauthenticated - Client is logged out' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      let token = await getAuthToken();
+      const headers = new Headers(options.headers || {});
+      if (token) headers.set('Authorization', `Bearer ${token}`);
+
+      let res = await fetch(url, { ...options, headers });
+      if (res.status === 401 && !isLoggedOut) {
+        // Token was invalid, expired or server restarted: force fresh login and retry once
+        token = await getAuthToken(true);
+        if (token) {
+          headers.set('Authorization', `Bearer ${token}`);
+          res = await fetch(url, { ...options, headers });
         }
       }
+      return res;
+    }
+
+    // -------------------------------------------------------------
+    // 5. Live Telemetry & Real-Time Sync
+    // -------------------------------------------------------------
+    async function syncWithBackend() {
+      const statusText = document.getElementById('backendStatusText');
+      const statusDot = document.getElementById('backendDot');
+
+      if (isLoggedOut) {
+        if (statusText) statusText.innerText = 'Session Logged Out — Telemetry Paused';
+        if (statusDot) statusDot.className = 'h-2 w-2 rounded-full bg-amber-400';
+        return;
+      }
+
+      try {
+        // 1. Fetch Realtime Analytics via resilient authFetch
+        const res = await authFetch(`${API_BASE_URL}/analytics/realtime`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        if (statusText) statusText.innerText = `Backend: ${API_BASE_URL.replace('/api', '')} (ONLINE)`;
+        if (statusDot) statusDot.className = 'h-2 w-2 rounded-full bg-emerald-400 animate-pulse';
+
+        // Update KPI Cards with DB values
+        if (data.total_students !== undefined && document.getElementById('statTotalEnrolled')) {
+          document.getElementById('statTotalEnrolled').innerText = data.total_students;
+          document.getElementById('subTotalEnrolled').innerText = `${data.total_students} Enrolled in SQLite`;
+        }
+
+        if (data.present_count !== undefined && document.getElementById('statPresent')) {
+          document.getElementById('statPresent').innerText = data.present_count;
+          const absent = data.absent_count !== undefined ? data.absent_count : 0;
+          document.getElementById('statRate').innerText = `${data.attendance_rate}% verified (${absent} absent)`;
+        }
+
+        if (data.spoof_count !== undefined && document.getElementById('statSpoof')) {
+          document.getElementById('statSpoof').innerText = data.spoof_count;
+          document.getElementById('subSpoof').innerText = `${data.spoof_count} intercepted in session`;
+        }
+
+        if (data.active_subject && document.getElementById('headerSubject')) {
+          document.getElementById('headerSubject').innerText = data.active_subject;
+        }
+
+        // Render Real Attendance Ticker
+        const ticker = document.getElementById('tickerContainer');
+        const tickerCount = document.getElementById('tickerCount');
+        if (ticker && data.recent_logs) {
+          if (data.recent_logs.length === 0) {
+            ticker.innerHTML = `<div class="p-4 text-center text-gray-500 font-mono text-xs">No attendance events logged yet for this session.</div>`;
+            if (tickerCount) tickerCount.innerText = '0 events';
+          } else {
+            ticker.innerHTML = '';
+            if (tickerCount) tickerCount.innerText = `${data.recent_logs.length} record(s)`;
+            data.recent_logs.forEach(log => {
+              const timeStr = new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              const isSpoof = log.status === 'SPOOF_DETECTED';
+              const isPresent = log.status === 'PRESENT';
+              const isManual = (log.verification_method || '').includes('MANUAL');
+              const item = document.createElement('div');
+              item.className = `p-3 rounded-xl bg-white/[0.02] border ${isSpoof ? 'border-rose-500/30' : isPresent ? (isManual ? 'border-purple-500/30' : 'border-emerald-500/30') : 'border-amber-500/30'} flex items-center justify-between gap-3`;
+              item.innerHTML = `
+                <div class="flex items-center gap-3 overflow-hidden">
+                  <img src="${log.avatar_url || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'}" class="h-8 w-8 rounded-lg object-cover border border-white/10" />
+                  <div class="overflow-hidden">
+                    <span class="text-xs font-semibold text-white block truncate">${log.student_name}</span>
+                    <span class="text-[10px] font-mono ${isSpoof ? 'text-rose-400' : isManual ? 'text-purple-400' : 'text-cyan-400'}">${log.roll_number || 'ID: ' + log.id} • ${isManual ? 'Manual Verification' : 'Face Biometric Match'}</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${isSpoof ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30' : isManual ? 'bg-purple-500/10 text-purple-300 border border-purple-500/30' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'}">
+                    ${isSpoof ? 'Spoof Flagged' : isManual ? 'Manual Instructor Entry' : Math.round(log.confidence_score * 100) + '% Face Match'}
+                  </span>
+                  <div class="text-[10px] font-mono text-gray-400 mt-1">${timeStr}</div>
+                </div>
+              `;
+              ticker.appendChild(item);
+            });
+          }
+        }
+      } catch (err) {
+        if (statusText) statusText.innerText = 'Backend: Offline (Check API Connection)';
+        if (statusDot) statusDot.className = 'h-2 w-2 rounded-full bg-rose-500';
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 6. Weekly Aggregates (Task 5)
+    // -------------------------------------------------------------
+    async function fetchWeeklyAnalytics() {
+      try {
+        const res = await authFetch(`${API_BASE_URL}/analytics/weekly`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (attendanceChart && data.labels) {
+          attendanceChart.data.labels = data.labels;
+          attendanceChart.data.datasets[0].data = data.present;
+          attendanceChart.data.datasets[1].data = data.absent;
+          attendanceChart.data.datasets[2].data = data.spoof;
+          attendanceChart.update();
+
+          const sub = document.getElementById('weeklySubText');
+          if (sub) {
+            sub.innerText = data.total_records > 0 
+              ? `Real SQLite aggregates from attendx.db (${data.total_records} total verified logs).`
+              : 'No real attendance data available yet.';
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching weekly analytics:', err);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 7. Student Management (Task 1 & 4)
+    // -------------------------------------------------------------
+    async function fetchStudentsRoster() {
+      const grid = document.getElementById('studentsGrid');
+      const select = document.getElementById('selectStudent');
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/students`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        enrolledStudents = await res.json();
+
+        // Update Dropdown in Manual Action Panel
+        if (select) {
+          select.innerHTML = '<option value="">-- Choose an enrolled student --</option>';
+          enrolledStudents.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            opt.innerText = `${s.name} (${s.roll_number || 'No Roll'}) — Current: ${s.session_status}`;
+            select.appendChild(opt);
+          });
+        }
+
+        // Render Student Cards
+        if (grid) {
+          if (enrolledStudents.length === 0) {
+            grid.innerHTML = '<div class="col-span-2 text-center py-8 text-gray-500 font-mono text-xs">No students enrolled yet.</div>';
+            return;
+          }
+          grid.innerHTML = '';
+          enrolledStudents.forEach(s => {
+            const isPresent = s.session_status === 'PRESENT';
+            const card = document.createElement('div');
+            card.className = `p-5 rounded-2xl bg-white/[0.02] border ${isPresent ? 'border-emerald-500/30' : 'border-amber-500/30'} flex items-start justify-between`;
+            card.innerHTML = `
+              <div class="flex items-start gap-4">
+                <img src="${s.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}" class="h-12 w-12 rounded-xl object-cover border ${isPresent ? 'border-emerald-500/40' : 'border-white/10'}" />
+                <div>
+                  <h4 class="text-sm font-bold text-white">${s.name}</h4>
+                  <p class="text-xs font-mono text-cyan-400">${s.roll_number || 'N/A'} • ${s.email}</p>
+                  <div class="flex items-center gap-2 mt-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isPresent ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-gray-500/20 text-gray-300 border border-gray-500/40'}">
+                      ${s.session_status}
+                    </span>
+                    <span class="text-[11px] font-mono text-gray-400">
+                      ${isPresent ? `Confidence: ${Math.round((s.confidence_score || 1) * 100)}% • Distance: ${s.distance_meters !== null ? s.distance_meters + 'm' : '0m'}` : '128-d Vector Enrolled'}
+                    </span>
+                  </div>
+                  <p class="text-[11px] text-gray-400 font-mono mt-2">Parent: ${s.parent_name || 'N/A'} (${s.parent_phone || 'N/A'})</p>
+                </div>
+              </div>
+              <span class="h-3 w-3 rounded-full ${isPresent ? 'bg-emerald-400 shadow-glow-emerald' : 'bg-gray-500'}"></span>
+            `;
+            grid.appendChild(card);
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching students:', err);
+      }
+    }
+
+    // Manual Attendance Recording (Task 4)
+    async function recordManualAttendance() {
+      const select = document.getElementById('selectStudent');
+      const selectStatus = document.getElementById('selectStatus');
+      const feedback = document.getElementById('manualFeedback');
+      const studentId = select ? select.value : null;
+      const statusVal = selectStatus ? selectStatus.value : 'PRESENT';
+
+      if (!studentId) {
+        showFeedback('Please select a student from the dropdown first.', 'error');
+        return;
+      }
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/attendance/manual`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_id: parseInt(studentId),
+            status: statusVal,
+            notes: 'Manual entry by instructor'
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.status === 409) {
+          // Duplicate prevented!
+          showFeedback(data.detail || 'Duplicate Attendance Prevented.', 'warning');
+          return;
+        }
+
+        if (!res.ok) {
+          showFeedback(data.detail || 'Error recording attendance.', 'error');
+          return;
+        }
+
+        showFeedback(`✓ Recorded ${data.student_name} as ${data.status} in SQLite!`, 'success');
+        syncWithBackend();
+        fetchWeeklyAnalytics();
+        fetchStudentsRoster();
+        fetchLiveReports();
+      } catch (err) {
+        showFeedback(`Connection failed: ${err.message}`, 'error');
+      }
+    }
+
+    function showFeedback(msg, type) {
+      const el = document.getElementById('manualFeedback');
+      if (!el) return;
+      el.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500/40', 'bg-amber-500/20', 'text-amber-300', 'border-amber-500/40', 'bg-rose-500/20', 'text-rose-300', 'border-rose-500/40');
+      
+      if (type === 'success') {
+        el.className = 'text-xs font-mono px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      } else if (type === 'warning') {
+        el.className = 'text-xs font-mono px-3 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40';
+      } else {
+        el.className = 'text-xs font-mono px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40';
+      }
+      el.innerText = msg;
+      el.classList.remove('hidden');
+      setTimeout(() => { el.classList.add('hidden'); }, 6000);
+    }
+
+    // Enroll New Student Modal
+    function toggleEnrollModal(show) {
+      const modal = document.getElementById('enrollModal');
+      const err = document.getElementById('enrollError');
+      if (err) err.classList.add('hidden');
+      if (modal) {
+        if (show) modal.classList.remove('hidden');
+        else modal.classList.add('hidden');
+      }
+    }
+
+    async function submitEnrollStudent() {
+      const name = document.getElementById('enrollName').value.trim();
+      const email = document.getElementById('enrollEmail').value.trim();
+      const roll = document.getElementById('enrollRoll').value.trim();
+      const parentName = document.getElementById('enrollParentName').value.trim();
+      const parentPhone = document.getElementById('enrollParentPhone').value.trim();
+      const errBox = document.getElementById('enrollError');
+
+      if (!name || !email || !roll) {
+        if (errBox) {
+          errBox.innerText = 'Name, email, and roll number are required.';
+          errBox.classList.remove('hidden');
+        }
+        return;
+      }
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/students`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name, email, roll_number: roll,
+            parent_name: parentName || null,
+            parent_phone: parentPhone || null,
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          if (errBox) {
+            errBox.innerText = data.detail || 'Enrollment failed.';
+            errBox.classList.remove('hidden');
+          }
+          return;
+        }
+
+        toggleEnrollModal(false);
+        // Clear inputs
+        document.getElementById('enrollName').value = '';
+        document.getElementById('enrollEmail').value = '';
+        document.getElementById('enrollRoll').value = '';
+        document.getElementById('enrollParentName').value = '';
+        document.getElementById('enrollParentPhone').value = '';
+
+        syncWithBackend();
+        fetchStudentsRoster();
+        showFeedback(`✓ Enrolled student ${data.name} (${data.roll_number}) in database!`, 'success');
+      } catch (err) {
+        if (errBox) {
+          errBox.innerText = `Network error: ${err.message}`;
+          errBox.classList.remove('hidden');
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 8. Session State Toggle
+    // -------------------------------------------------------------
+    async function toggleSessionState() {
+      try {
+        const res = await authFetch(`${API_BASE_URL}/session/toggle`, {
+          method: 'POST'
+        });
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        isSessionActive = data.is_active;
+        const badge = document.getElementById('sessionStatusBadge');
+        const btnText = document.getElementById('sessionBtnText');
+
+        if (isSessionActive) {
+          if (badge) {
+            badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.3)]';
+            badge.innerHTML = '<span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping"></span> LIVE SESSION ACTIVE';
+          }
+          if (btnText) btnText.innerText = 'Conclude Attendance';
+          showFeedback('Live Attendance Session started.', 'success');
+        } else {
+          if (badge) {
+            badge.className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-gray-500/10 text-gray-400 border border-gray-500/30';
+            badge.innerHTML = '<span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span> SESSION CONCLUDED';
+          }
+          if (btnText) btnText.innerText = 'Start Attendance Session';
+          if (data.absentee_summary) {
+            const summary = data.absentee_summary;
+            showFeedback(`Session concluded. Absent reconciliation: ${summary.absent_count || 0} absent, ${summary.student_notifications_sent || 0} student alerts dispatched.`, 'info');
+          }
+        }
+
+        syncWithBackend();
+        fetchStudentsRoster();
+        fetchAbsentAlerts();
+      } catch (err) {
+        alert('Failed to toggle session: ' + err.message);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 9. Attendance Reports & CSV Export
+    // -------------------------------------------------------------
+    async function fetchLiveReports() {
+      const tbody = document.getElementById('reportsTableBody');
+      const summaryText = document.getElementById('reportsSummaryText');
+      if (!tbody) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/attendance/reports?page=1&page_size=50`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        allReportRecords = data.records || [];
+
+        if (summaryText && data.summary) {
+          summaryText.innerText = `Total: ${data.total_records} record(s) • Present: ${data.summary.present_count} • Spoofs: ${data.summary.spoof_count} • Rate: ${data.summary.attendance_rate}%`;
+        }
+
+        applyReportFilter();
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-6 text-center text-rose-400 font-mono">Unable to connect to /api/attendance/reports (${err.message}).</td></tr>`;
+      }
+    }
+
+    function applyReportFilter() {
+      const tbody = document.getElementById('reportsTableBody');
+      const searchVal = (document.getElementById('reportSearch') ? document.getElementById('reportSearch').value : '').toLowerCase().trim();
+      const statusVal = document.getElementById('reportStatusFilter') ? document.getElementById('reportStatusFilter').value : '';
+
+      if (!tbody) return;
+
+      const filtered = allReportRecords.filter(r => {
+        const matchSearch = !searchVal || 
+          r.student_name.toLowerCase().includes(searchVal) || 
+          (r.roll_number && r.roll_number.toLowerCase().includes(searchVal));
+        const matchStatus = !statusVal || r.status === statusVal;
+        return matchSearch && matchStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-6 text-center text-gray-500 font-mono">No matching attendance reports found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = '';
+      filtered.forEach(r => {
+        const timeStr = new Date(r.timestamp).toLocaleString();
+        const isPresent = r.status === 'PRESENT';
+        const isSpoof = r.status === 'SPOOF_DETECTED';
+        const isManual = (r.verification_method || '').includes('MANUAL');
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/[0.02] transition-colors';
+        tr.innerHTML = `
+          <td class="py-3 px-4 flex items-center gap-2">
+            <img src="${r.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100'}" class="h-6 w-6 rounded-md object-cover border border-white/10" />
+            <span class="text-white font-medium">${r.student_name}</span>
+          </td>
+          <td class="py-3 px-4 text-cyan-400 font-mono">${r.roll_number || 'N/A'}</td>
+          <td class="py-3 px-4 text-gray-300 truncate max-w-[160px]">${r.subject_name}</td>
+          <td class="py-3 px-4 text-gray-400 font-mono text-xs">${timeStr}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${isPresent ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : isSpoof ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-gray-500/20 text-gray-300'}">
+              ${r.status}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-emerald-400 font-mono text-xs">${Math.round(r.confidence_score * 100)}%</td>
+          <td class="py-3 px-4 text-gray-300 font-mono text-xs">${r.distance_meters !== null ? r.distance_meters + 'm' : '0m'}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isManual ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : isSpoof ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'}">
+              ${isManual ? 'Manual Verification' : isSpoof ? 'Anti-Spoof Alert' : 'Face Biometric Match'}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function exportReportsCsv() {
+      if (!allReportRecords || allReportRecords.length === 0) {
+        alert('No attendance records available to export.');
+        return;
+      }
+      const headers = ['Log ID', 'Student Name', 'Roll Number', 'Subject', 'Timestamp', 'Status', 'Match Confidence', 'Distance Meters', 'Verification Method'];
+      const rows = allReportRecords.map(r => [
+        r.id,
+        `"${r.student_name}"`,
+        `"${r.roll_number || ''}"`,
+        `"${r.subject_name}"`,
+        `"${r.timestamp}"`,
+        r.status,
+        r.confidence_score,
+        r.distance_meters !== null ? r.distance_meters : '',
+        `"${r.verification_method}"`
+      ]);
+
+      const csvContent = [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `AttendX_Attendance_Report_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // -------------------------------------------------------------
+    // 10. Settings & Geofence Configuration
+    // -------------------------------------------------------------
+    function saveApiUrl() {
+      const inp = document.getElementById('inputApiUrl');
+      if (inp && inp.value.trim()) {
+        API_BASE_URL = inp.value.trim();
+        localStorage.setItem('attendx_api_url', API_BASE_URL);
+        jwtToken = null;
+        localStorage.removeItem('attendx_token');
+        syncWithBackend();
+        fetchWeeklyAnalytics();
+        fetchStudentsRoster();
+        fetchLiveReports();
+      }
+    }
+
+    async function saveGeofenceRadius() {
+      const inp = document.getElementById('inputGeofence');
+      if (!inp || !inp.value) return;
+      const radius = parseFloat(inp.value);
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/settings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ geofence_radius_meters: radius })
+        });
+        if (res.ok) {
+          alert(`Geofence radius updated to ${radius} meters in SQLite.`);
+          const headerRad = document.getElementById('headerRadius');
+          if (headerRad) headerRad.innerText = `${radius}m`;
+        } else {
+          alert('Failed to update geofence radius.');
+        }
+      } catch (err) {
+        alert('Network error: ' + err.message);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // App Initialization
+    // -------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      updateAuthUI();
+      initCharts();
+      syncWithBackend();
+      fetchWeeklyAnalytics();
+      fetchStudentsRoster();
+      fetchLiveReports();
+      setInterval(syncWithBackend, 10000);
     });
 
-    // 3. Live Ticker Simulator
-    const ticker = document.getElementById('tickerContainer');
-    const tickerCount = document.getElementById('tickerCount');
-    let eventsCount = 5;
+    // =============================================================
+    // 11. ADVANCED FEATURES CLIENT METHODS
+    // =============================================================
 
-    const mockStudents = [
-      { name: 'Marcus Vance', roll: 'CS-2026-005', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' },
-      { name: 'Priya Sharma', roll: 'CS-2026-006', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
-      { name: 'David Kim', roll: 'CS-2026-003', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
-    ];
-    let idx = 0;
+    // --- Module 1: AI Multi-Face & Liveness Engine ---
+    async function runBatchFaceAnalysis() {
+      const faceCountMode = document.getElementById('bioFaceCount').value;
+      const resultsContainer = document.getElementById('bioBatchResults');
+      const perfText = document.getElementById('bioEnginePerf');
+      const btn = document.getElementById('btnRunBioBatch');
+      if (btn) btn.disabled = true;
 
-    setInterval(() => {
-      const student = mockStudents[idx % mockStudents.length];
-      idx++;
-      eventsCount++;
-      tickerCount.innerText = `${eventsCount} events`;
-
-      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const item = document.createElement('div');
-      item.className = 'p-3 rounded-xl bg-white/[0.02] border border-cyan-500/20 flex items-center justify-between gap-3 transition-all duration-500';
-      item.innerHTML = `
-        <div class="flex items-center gap-3 overflow-hidden">
-          <img src="${student.avatar}" class="h-8 w-8 rounded-lg object-cover border border-white/10" />
-          <div class="overflow-hidden">
-            <span class="text-xs font-semibold text-white block truncate">${student.name}</span>
-            <span class="text-[10px] font-mono text-cyan-400">${student.roll} • Face + Liveness</span>
-          </div>
-        </div>
-        <div class="text-right">
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-            99% Match
-          </span>
-          <div class="text-[10px] font-mono text-gray-400 mt-1">${now}</div>
-        </div>
-      `;
-      ticker.prepend(item);
-      if (ticker.children.length > 8) {
-        ticker.removeChild(ticker.lastChild);
+      let detectedFaces = [];
+      if (faceCountMode === 'enrolled_plus_spoof') {
+        detectedFaces = [
+          {
+            face_index: 0,
+            bounding_box: [120, 80, 240, 220],
+            liveness_score: 0.94,
+            is_live: true,
+            suggested_roll_number: "CS-2026-001"
+          },
+          {
+            face_index: 1,
+            bounding_box: [310, 95, 430, 240],
+            embedding_vector: Array(128).fill(0.01),
+            liveness_score: 0.88,
+            is_live: true
+          },
+          {
+            face_index: 2,
+            bounding_box: [500, 110, 620, 260],
+            liveness_score: 0.32,
+            is_live: false
+          }
+        ];
+      } else if (faceCountMode === 'all_enrolled') {
+        detectedFaces = [
+          {
+            face_index: 0,
+            bounding_box: [120, 80, 240, 220],
+            liveness_score: 0.95,
+            is_live: true,
+            suggested_roll_number: "CS-2026-001"
+          },
+          {
+            face_index: 1,
+            bounding_box: [310, 95, 430, 240],
+            liveness_score: 0.92,
+            is_live: true,
+            suggested_roll_number: "CS-2026-002"
+          }
+        ];
+      } else {
+        detectedFaces = [
+          {
+            face_index: 0,
+            bounding_box: [150, 100, 280, 250],
+            liveness_score: 0.22,
+            is_live: false
+          }
+        ];
       }
-    }, 4500);
+
+      try {
+        const startTime = performance.now();
+        const res = await authFetch(`${API_BASE_URL}/face-engine/analyze-batch`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: 1,
+            image_source: "WEBCAM_BROWSER",
+            detected_faces: detectedFaces,
+            auto_record_high_confidence: false
+          })
+        });
+
+        const elapsed = Math.round(performance.now() - startTime);
+        if (perfText) perfText.innerText = `Latency: ${elapsed}ms`;
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Analysis failed');
+
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `
+            <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-xs font-mono">
+              <span class="text-white font-bold">Total Faces Processed: ${data.total_faces_detected}</span>
+              <span class="text-emerald-400">Verified: ${data.verified_matches_count} | Queued: ${data.review_queue_count} | Spoofs: ${data.spoofs_intercepted}</span>
+            </div>
+          `;
+
+          (data.detection_details || []).forEach(d => {
+            const card = document.createElement('div');
+            const isSpoof = d.is_spoof;
+            const isVerified = d.verdict === 'VERIFIED_STUDENT_MATCH';
+            card.className = `p-3 rounded-xl border ${isSpoof ? 'bg-rose-500/10 border-rose-500/30' : isVerified ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-amber-500/10 border-amber-500/30'} flex items-center justify-between`;
+            card.innerHTML = `
+              <div>
+                <span class="text-white font-bold block">${d.matched_student_name || 'Unrecognized Face'} ${d.roll_number ? '(' + d.roll_number + ')' : ''}</span>
+                <span class="text-gray-400 text-[11px] font-mono">Confidence: ${Math.round(d.confidence_score * 100)}% • Liveness: ${Math.round(d.liveness_score * 100)}% • Box: [${d.bounding_box.join(', ')}]</span>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isSpoof ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : isVerified ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
+                ${d.verification_status}
+              </span>
+            `;
+            resultsContainer.appendChild(card);
+          });
+        }
+      } catch (err) {
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `<div class="p-4 text-rose-400 font-mono text-xs">Error executing batch analysis: ${err.message}</div>`;
+        }
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // --- Module 2: Continuous Presence Timeline ---
+    async function fetchPresenceTimeline() {
+      const container = document.getElementById('presenceTimelineContainer');
+      if (!container) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/presence/session/1/timeline`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        container.innerHTML = '';
+        (data.students_presence || []).forEach(sp => {
+          const card = document.createElement('div');
+          const isCompliant = sp.session_retention_rate >= 75.0;
+          card.className = `p-5 rounded-2xl bg-white/[0.02] border ${isCompliant ? 'border-emerald-500/30' : 'border-amber-500/30'} flex flex-col justify-between`;
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-white/5 font-mono">
+                <span class="text-white font-bold">${sp.name}</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${isCompliant ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">
+                  ${isCompliant ? 'COMPLIANT' : 'REVIEW'}
+                </span>
+              </div>
+              <div class="space-y-2 mt-4 font-mono text-xs">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Roll Number:</span>
+                  <span class="text-cyan-400 font-bold">${sp.roll_number || 'N/A'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Session Retention:</span>
+                  <span class="text-emerald-400 font-bold">${sp.session_retention_rate}%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Duration Attended:</span>
+                  <span class="text-white font-bold">${sp.duration_attended_minutes} mins</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-4 mt-4 border-t border-white/5 text-[11px] font-mono text-gray-400">
+              Checkpoints: ${(sp.sampled_checkpoints || []).map(c => `+${c.minute}m:${c.verified ? '✓' : '✗'}`).join('  ')}
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      } catch (err) {
+        container.innerHTML = `<div class="col-span-3 text-center py-6 text-rose-400 font-mono text-xs">Unable to load timeline: ${err.message}</div>`;
+      }
+    }
+
+    // --- Module 3: BLE Proximity & Perimeter ---
+    async function calculateBleProximity() {
+      const rssi = parseInt(document.getElementById('bleRssiSlider').value);
+      const txPower = parseInt(document.getElementById('bleTxPower').value);
+      const resultBox = document.getElementById('bleResultBox');
+      const distVal = document.getElementById('bleDistValue');
+      const badge = document.getElementById('bleProximityBadge');
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/proximity/verify-ble`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: 1,
+            measured_rssi: rssi,
+            tx_power: txPower,
+            beacon_uuid: '426C7565-4368-6172-6D42-6561636F6E73',
+            mobile_device_model: 'Pixel 8 Pro (Simulated)',
+            is_simulated_signal: true
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'BLE calculation failed');
+
+        if (resultBox) resultBox.classList.remove('hidden');
+        if (distVal) distVal.innerText = `${data.estimated_distance_meters} meters`;
+        if (badge) {
+          if (data.is_in_ble_perimeter) {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+            badge.innerText = `INSIDE CLASSROOM (${data.status})`;
+          } else {
+            badge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40';
+            badge.innerText = `OUT OF BOUNDS (${data.status})`;
+          }
+        }
+      } catch (err) {
+        alert('BLE Calculation error: ' + err.message);
+      }
+    }
+
+    async function fetchClassroomPerimeter() {
+      try {
+        await authFetch(`${API_BASE_URL}/proximity/classroom-perimeter/1`);
+      } catch (err) {
+        console.error('Error fetching perimeter:', err);
+      }
+    }
+
+    // --- Module 4: Gait & Posture Research ---
+    async function fetchGaitCatalog() {
+      const container = document.getElementById('gaitCatalogList');
+      if (!container) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/research/metrics-catalog`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        container.innerHTML = '';
+        (data.features || []).forEach(m => {
+          const item = document.createElement('div');
+          item.className = 'p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1 font-mono text-xs';
+          item.innerHTML = `
+            <div class="flex justify-between items-center">
+              <span class="text-white font-bold">${m.name}</span>
+              <span class="text-amber-400 font-mono text-[11px] truncate max-w-[200px]">${m.formula}</span>
+            </div>
+            <p class="text-gray-400 text-[11px]">${m.purpose}</p>
+          `;
+          container.appendChild(item);
+        });
+      } catch (err) {
+        container.innerHTML = `<div class="text-center py-6 text-rose-400 font-mono text-xs">Error loading catalog: ${err.message}</div>`;
+      }
+    }
+
+    async function simulatePostureAnalysis() {
+      const box = document.getElementById('postureResultBox');
+      const stateBadge = document.getElementById('postureStateBadge');
+      const scoreEl = document.getElementById('postureScore');
+      const recEl = document.getElementById('postureRec');
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/research/posture-analysis`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: 1,
+            is_simulation: true
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Analysis failed');
+
+        if (box) box.classList.remove('hidden');
+        if (stateBadge && data.metrics) {
+          stateBadge.innerText = data.metrics.ergonomic_classification;
+          stateBadge.className = data.metrics.ergonomic_classification.includes('UPRIGHT')
+            ? 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+            : 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/40';
+        }
+        if (scoreEl && data.metrics) {
+          scoreEl.innerText = `Tilt: ${data.metrics.torso_vertical_tilt_degrees}° • Cadence: ${data.metrics.gait_stride_cadence_spm} spm`;
+        }
+        if (recEl) {
+          recEl.innerHTML = `Standard: ${data.topology_standard}<br><span class="text-gray-500">${data.research_disclaimer}</span>`;
+        }
+      } catch (err) {
+        alert('Posture analysis error: ' + err.message);
+      }
+    }
+
+    // --- Module 5: Tamper-Evident SHA-256 Ledger ---
+    async function fetchAuditLedger() {
+      const container = document.getElementById('ledgerBlocksContainer');
+      const blockCount = document.getElementById('chainBlockCount');
+      if (!container) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/audit/ledger`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        if (blockCount) blockCount.innerText = `${data.total_blocks} Blocks Anchored`;
+        container.innerHTML = '';
+
+        (data.blocks || []).forEach(b => {
+          const item = document.createElement('div');
+          item.className = 'p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 transition-all font-mono text-xs space-y-2';
+          item.innerHTML = `
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 font-bold">Block #${b.block_index}</span>
+                <span class="text-gray-400 text-[11px]">${new Date(b.timestamp).toLocaleString()}</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                Action: ${b.action}
+              </span>
+            </div>
+            <div class="space-y-1 text-[11px]">
+              <div class="truncate"><span class="text-gray-500">Current Hash: </span><span class="text-emerald-400 font-bold">${b.current_hash}</span></div>
+              <div class="truncate"><span class="text-gray-500">Previous Hash: </span><span class="text-gray-400">${b.previous_hash}</span></div>
+              <div class="truncate"><span class="text-gray-500">Blockchain Anchor: </span><span class="text-purple-400">${b.blockchain_anchor || '0x00'}</span></div>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      } catch (err) {
+        container.innerHTML = `<div class="text-center py-6 text-rose-400 font-mono text-xs">Error loading ledger: ${err.message}</div>`;
+      }
+    }
+
+    async function verifyAuditIntegrity() {
+      const btn = document.getElementById('btnVerifyChain');
+      const banner = document.getElementById('chainIntegrityBanner');
+      const text = document.getElementById('chainIntegrityText');
+      if (btn) btn.disabled = true;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/audit/verify-integrity`);
+        const data = await res.json();
+
+        if (data.is_valid) {
+          if (banner) banner.className = 'my-5 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-xs font-mono';
+          if (text) text.innerText = `Cryptographic Ledger Verified: All ${data.blocks_verified} sequential blocks intact.`;
+          showFeedback(`✓ Verified cryptographic ledger: All ${data.blocks_verified} blocks are sequentially valid!`, 'success');
+        } else {
+          if (banner) banner.className = 'my-5 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-between text-xs font-mono';
+          if (text) text.innerText = `CRITICAL ALERT: Chain verification failed! ${data.error}`;
+          showFeedback(`⚠ Cryptographic ledger mismatch detected: ${data.error}`, 'error');
+        }
+      } catch (err) {
+        showFeedback(`Failed to verify chain: ${err.message}`, 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    // --- Module 6: IoT Gateway (ESP32 & RFID) ---
+    async function fetchIoTDevices() {
+      const container = document.getElementById('iotDevicesList');
+      if (!container) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/iot/devices`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        container.innerHTML = '';
+        (data.devices || []).forEach(d => {
+          const item = document.createElement('div');
+          item.className = 'p-4 rounded-xl bg-white/[0.03] border border-white/5 space-y-2';
+          item.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-white font-bold">${d.device_name}</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${d.status.includes('ONLINE') || d.status.includes('ACTIVE') || d.status.includes('SIMULATED') ? 'bg-emerald-500/20 text-emerald-400' : 'bg-gray-500/20 text-gray-400'}">
+                ${d.status}
+              </span>
+            </div>
+            <div class="text-[11px] text-gray-400 space-y-0.5">
+              <div>Type: <span class="text-cyan-400">${d.device_type}</span> • ID: ${d.device_id}</div>
+              <div>Location: ${d.location || d.location_label || 'N/A'} • IP: ${d.ip_address || 'DHCP'}</div>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      } catch (err) {
+        container.innerHTML = `<div class="col-span-2 text-center py-4 text-rose-400 font-mono text-xs">Error loading IoT devices: ${err.message}</div>`;
+      }
+    }
+
+    async function simulateRfidTap() {
+      const cardUid = document.getElementById('rfidBadgeSelect').value;
+      const readerId = document.getElementById('rfidReaderId').value;
+      const feedback = document.getElementById('rfidFeedback');
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/iot/rfid-tap`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            card_uid: cardUid,
+            reader_device_id: readerId,
+            session_id: 1,
+            is_simulated: true
+          })
+        });
+
+        const data = await res.json();
+        if (res.status === 409) {
+          if (feedback) {
+            feedback.className = 'p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono text-xs';
+            feedback.innerText = `⚠ Duplicate Swipe Prevented: ${data.detail}`;
+            feedback.classList.remove('hidden');
+          }
+          return;
+        }
+
+        if (!res.ok) {
+          if (feedback) {
+            feedback.className = 'p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 font-mono text-xs';
+            feedback.innerText = `Error: ${data.detail || 'RFID processing failed.'}`;
+            feedback.classList.remove('hidden');
+          }
+          return;
+        }
+
+        if (feedback) {
+          feedback.className = 'p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs';
+          feedback.innerText = `✓ Swiped Badge ${cardUid}: Recorded ${data.student_name} (${data.roll_number}) as ${data.verification_method}!`;
+          feedback.classList.remove('hidden');
+        }
+
+        syncWithBackend();
+        fetchLiveReports();
+      } catch (err) {
+        if (feedback) {
+          feedback.className = 'p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 font-mono text-xs';
+          feedback.innerText = `Network error: ${err.message}`;
+          feedback.classList.remove('hidden');
+        }
+      }
+    }
+
+    async function simulateEsp32Frame() {
+      const nodeId = document.getElementById('esp32NodeId').value;
+      const resolution = document.getElementById('esp32Resolution').value;
+      const feedback = document.getElementById('esp32Feedback');
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/iot/esp32-frame`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            device_id: nodeId,
+            session_id: 1,
+            resolution: resolution
+          })
+        });
+
+        const data = await res.json();
+        if (feedback) {
+          feedback.className = 'p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs';
+          feedback.innerText = `✓ Acknowledged frame ping from ${nodeId}: ${data.status} (${data.mode})`;
+          feedback.classList.remove('hidden');
+        }
+      } catch (err) {
+        if (feedback) {
+          feedback.className = 'p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 font-mono text-xs';
+          feedback.innerText = `Frame ping failed: ${err.message}`;
+          feedback.classList.remove('hidden');
+        }
+      }
+    }
+
+    // --- Module 7: Predictive Risk & Parent Alerts ---
+    async function fetchPredictionsRiskSummary() {
+      const tbody = document.getElementById('riskTableBody');
+      const totalEl = document.getElementById('predTotalEnrolled');
+      const atRiskEl = document.getElementById('predAtRiskCount');
+      const safeEl = document.getElementById('predSafeCount');
+      if (!tbody) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/predictions/risk-summary`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        if (totalEl) totalEl.innerText = data.total_evaluated_students || 0;
+        if (atRiskEl) atRiskEl.innerText = (data.summary ? data.summary.at_risk_count + data.summary.critical_risk_count : 0);
+        if (safeEl) safeEl.innerText = data.summary ? data.summary.safe_count : 0;
+
+        tbody.innerHTML = '';
+        const students = data.student_risks || [];
+        if (students.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="py-6 text-center text-gray-500">No students evaluated yet.</td></tr>';
+          return;
+        }
+
+        students.forEach(s => {
+          const isAtRisk = s.attendance_rate < 75;
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-white/[0.02] transition-colors';
+          tr.innerHTML = `
+            <td class="py-3 px-3 font-semibold text-white">${s.name}</td>
+            <td class="py-3 px-3 text-cyan-400">${s.roll_number || 'N/A'}</td>
+            <td class="py-3 px-3 text-gray-300">${s.present_sessions} / ${s.total_sessions}</td>
+            <td class="py-3 px-3 font-bold ${isAtRisk ? 'text-rose-400' : 'text-emerald-400'}">${s.attendance_rate}%</td>
+            <td class="py-3 px-3">
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${s.risk_level === 'CRITICAL_RISK' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : s.risk_level === 'AT_RISK' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}">
+                ${s.risk_level}
+              </span>
+            </td>
+            <td class="py-3 px-3 text-gray-400 text-[11px]">${s.parent_name || 'N/A'} (${s.parent_phone || 'No phone'})</td>
+            <td class="py-3 px-3 text-right">
+              <button onclick="dispatchParentAlert(${s.student_id}, '${s.name}')" class="px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 border border-rose-500/40 text-[11px] transition-all">
+                Send Parent SMS
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-rose-400">Failed to load risk summary: ${err.message}</td></tr>`;
+      }
+    }
+
+    async function dispatchParentAlert(studentId, studentName) {
+      if (!confirm(`Confirm dispatching SMS notification to parent of ${studentName}?`)) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/predictions/dispatch-alert`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_id: studentId,
+            channel: 'SMS_MOCK',
+            alert_type: 'LOW_ATTENDANCE_WARNING',
+            custom_message: `AttendX Academic Alert: ${studentName}'s attendance is below the 75% cutoff threshold.`
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Dispatch failed');
+
+        showFeedback(`✓ Dispatched parent SMS alert for ${studentName} to ${data.recipient_phone}!`, 'success');
+        fetchNotificationHistory();
+      } catch (err) {
+        showFeedback(`Alert error: ${err.message}`, 'error');
+      }
+    }
+
+    async function fetchNotificationHistory() {
+      const container = document.getElementById('alertHistoryList');
+      const countEl = document.getElementById('alertHistoryCount');
+      if (!container) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/predictions/history`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+
+        const count = data.total_logged || (data.records ? data.records.length : 0);
+        if (countEl) countEl.innerText = `${count} alert(s) logged`;
+        container.innerHTML = '';
+
+        const records = data.records || [];
+        if (records.length === 0) {
+          container.innerHTML = '<div class="text-center py-4 text-gray-500">No alerts dispatched yet.</div>';
+          return;
+        }
+
+        records.forEach(n => {
+          const item = document.createElement('div');
+          item.className = 'p-3 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between';
+          item.innerHTML = `
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-white font-bold">${n.student_name}</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 font-mono">${n.channel}</span>
+                <span class="text-gray-400 text-[11px]">${n.parent_phone}</span>
+              </div>
+              <p class="text-[11px] text-gray-400 mt-1">${n.message}</p>
+            </div>
+            <div class="text-right">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-400">
+                ${n.status}
+              </span>
+              <div class="text-[10px] text-gray-500 mt-1">${new Date(n.sent_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      } catch (err) {
+        container.innerHTML = `<div class="text-center py-4 text-rose-400 font-mono text-xs">Error loading history: ${err.message}</div>`;
+      }
+    }
+
+  
+    // -------------------------------------------------------------
+    // Automatic Absent Student Notifications & SMS Functions
+    // -------------------------------------------------------------
+        let cachedAbsentAlerts = [];
+    let currentAbsentFilter = 'ALL';
+
+    function filterAbsentAlerts(status) {
+      currentAbsentFilter = status;
+      ['all', 'sent', 'preview', 'pending', 'failed', 'missing', 'corrected'].forEach(k => {
+        const btn = document.getElementById(`filter-btn-${k}`);
+        if (btn) {
+          if ((k === 'all' && status === 'ALL') || (k === 'sent' && status === 'SENT') || (k === 'preview' && status === 'PREVIEW') || (k === 'pending' && status === 'PENDING') || (k === 'failed' && status === 'FAILED') || (k === 'missing' && status === 'MISSING_PHONE') || (k === 'corrected' && status === 'CORRECTED_TO_PRESENT')) {
+            btn.className = 'px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(6,182,212,0.3)]';
+          } else {
+            btn.className = 'px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/10 hover:border-white/20';
+          }
+        }
+      });
+      renderAbsentAlertsTable();
+    }
+
+    function renderAbsentAlertsTable() {
+      const tbody = document.getElementById('absentAlertsTableBody');
+      if (!tbody) return;
+
+      const filtered = cachedAbsentAlerts.filter(a => {
+        if (currentAbsentFilter === 'ALL') return true;
+        if (currentAbsentFilter === 'SENT') return a.status === 'SENT' || a.status === 'DELIVERED';
+        if (currentAbsentFilter === 'PREVIEW') return a.status === 'PREVIEW' || a.status === 'PREVIEW_DELIVERED' || a.status.includes('PREVIEW');
+        if (currentAbsentFilter === 'PENDING') return a.status === 'PENDING';
+        if (currentAbsentFilter === 'FAILED') return a.status === 'FAILED';
+        if (currentAbsentFilter === 'MISSING_PHONE') return a.status === 'MISSING_PHONE' || a.status === 'PHONE_NOT_REGISTERED';
+        if (currentAbsentFilter === 'CORRECTED_TO_PRESENT') return a.status === 'CORRECTED_TO_PRESENT';
+        return true;
+      });
+
+      tbody.innerHTML = '';
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-gray-500 font-mono">No absent notifications matching filter "${currentAbsentFilter}".</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(a => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/[0.02] transition-colors';
+
+        let statusBadge = '';
+        if (a.status === 'SENT' || a.status === 'DELIVERED') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">SENT</span>';
+        } else if (a.status === 'PREVIEW' || a.status === 'PREVIEW_DELIVERED' || a.status.includes('PREVIEW')) {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30" title="Rendered and logged in preview mode without carrier billing">PREVIEW</span>';
+        } else if (a.status === 'PENDING') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">PENDING</span>';
+        } else if (a.status === 'CORRECTED_TO_PRESENT') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">CORRECTED_TO_PRESENT</span>';
+        } else if (a.status === 'MISSING_PHONE' || a.status === 'PHONE_NOT_REGISTERED') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">MISSING_PHONE</span>';
+        } else {
+          statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">${a.status}</span>`;
+        }
+
+        const providerBadge = `<span class="text-[10px] font-mono text-gray-400">${a.delivery_provider}</span>`;
+        const shortMsg = a.message.length > 55 ? a.message.substring(0, 52) + '...' : a.message;
+
+        tr.innerHTML = `
+          <td class="py-3 px-3">
+            <div class="font-bold text-white">${a.student_name}</div>
+            <div class="text-[11px] text-cyan-400">${a.roll_number || 'N/A'}</div>
+          </td>
+          <td class="py-3 px-3">
+            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${a.recipient_type === 'STUDENT' ? 'bg-cyan-500/10 text-cyan-400' : 'bg-amber-500/10 text-amber-400'} border border-white/5">
+              ${a.recipient_type}
+            </span>
+          </td>
+          <td class="py-3 px-3 text-gray-300">
+            <div>${a.recipient_name}</div>
+            <div class="text-[11px] font-mono text-cyan-300">${a.recipient_phone_masked}</div>
+          </td>
+          <td class="py-3 px-3">${statusBadge}</td>
+          <td class="py-3 px-3">${providerBadge}</td>
+          <td class="py-3 px-3 text-gray-400 text-[11px]" title="${a.message.replace(/"/g, '&quot;')}">${shortMsg}</td>
+          <td class="py-3 px-3 text-right space-x-1.5 whitespace-nowrap">
+            ${a.status !== 'CORRECTED_TO_PRESENT' ? `
+              <button type="button" onclick="correctAttendanceToPresent(${a.student_id}, '${a.student_name.replace(/'/g, "\\'")}', ${a.session_id})" class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/40 text-[11px] transition-all" title="Mark student PRESENT and update notification status">
+                Correct to Present
+              </button>
+              <button type="button" onclick="retrySMSNotification(${a.id})" class="px-2 py-1 rounded bg-white/5 text-gray-300 hover:bg-white/10 border border-white/10 text-[11px] transition-all" title="Retry sending SMS">
+                Retry SMS
+              </button>
+            ` : `
+              <span class="text-[10px] text-emerald-400 font-mono">✓ Present Verified</span>
+            `}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function fetchAbsentAlerts() {
+      const tbody = document.getElementById('absentAlertsTableBody');
+      if (!tbody) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/predictions/absent-alerts?limit=100`);
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+        cachedAbsentAlerts = data.alerts || [];
+
+        // Update counts
+        const cAll = cachedAbsentAlerts.length;
+        const cSent = cachedAbsentAlerts.filter(a => a.status === 'SENT' || a.status === 'DELIVERED').length;
+        const cPreview = cachedAbsentAlerts.filter(a => a.status === 'PREVIEW' || a.status === 'PREVIEW_DELIVERED' || a.status.includes('PREVIEW')).length;
+        const cPending = cachedAbsentAlerts.filter(a => a.status === 'PENDING').length;
+        const cFailed = cachedAbsentAlerts.filter(a => a.status === 'FAILED').length;
+        const cMissing = cachedAbsentAlerts.filter(a => a.status === 'MISSING_PHONE' || a.status === 'PHONE_NOT_REGISTERED').length;
+        const cCorrected = cachedAbsentAlerts.filter(a => a.status === 'CORRECTED_TO_PRESENT').length;
+
+        if (document.getElementById('count-all')) document.getElementById('count-all').innerText = cAll;
+        if (document.getElementById('count-sent')) document.getElementById('count-sent').innerText = cSent;
+        if (document.getElementById('count-preview')) document.getElementById('count-preview').innerText = cPreview;
+        if (document.getElementById('count-pending')) document.getElementById('count-pending').innerText = cPending;
+        if (document.getElementById('count-failed')) document.getElementById('count-failed').innerText = cFailed;
+        if (document.getElementById('count-missing')) document.getElementById('count-missing').innerText = cMissing;
+        if (document.getElementById('count-corrected')) document.getElementById('count-corrected').innerText = cCorrected;
+
+        renderAbsentAlertsTable();
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-rose-400 font-mono">Error loading absent notifications: ${err.message}</td></tr>`;
+      }
+    }
+
+    async function retrySMSNotification(notificationId) {
+      try {
+        const res = await authFetch(`${API_BASE_URL}/predictions/retry-sms`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ notification_id: notificationId })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Retry failed');
+        showFeedback(`SMS dispatch retried: ${data.status} via ${data.provider}`, 'success');
+        fetchAbsentAlerts();
+      } catch (err) {
+        showFeedback(`Retry failed: ${err.message}`, 'error');
+      }
+    }
+
+    async function correctAttendanceToPresent(studentId, studentName, sessionId) {
+      if (!confirm(`Mark ${studentName} as PRESENT for this session? This will update attendance and cancel/correct any unexcused absence alerts.`)) return;
+
+      try {
+        const res = await authFetch(`${API_BASE_URL}/attendance/manual`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_id: studentId,
+            session_id: sessionId,
+            status: 'PRESENT',
+            notes: 'Attendance manually corrected by teacher after student late arrival.'
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Correction failed');
+
+        showFeedback(`✓ Attendance corrected to PRESENT for ${studentName}. Notification status updated to CORRECTED_TO_PRESENT.`, 'success');
+        fetchAbsentAlerts();
+        fetchLiveReports();
+        fetchStudentsRoster();
+      } catch (err) {
+        showFeedback(`Correction error: ${err.message}`, 'error');
+      }
+    }
+
+    async function triggerManualAbsentReconciliation() {
+      try {
+        // Query active session or latest session
+        const resSess = await authFetch(`${API_BASE_URL}/session/active`);
+        let targetSessionId = null;
+        if (resSess.ok) {
+          const sessions = await resSess.json();
+          if (sessions && sessions.length > 0) targetSessionId = sessions[0].id;
+        }
+
+        if (!targetSessionId) {
+          // If no active session, fetch reports to find latest session id
+          const resRep = await authFetch(`${API_BASE_URL}/attendance/reports?page_size=1`);
+          if (resRep.ok) {
+            const repData = await resRep.json();
+            if (repData.records && repData.records.length > 0) {
+              targetSessionId = repData.records[0].session_id;
+            }
+          }
+        }
+
+        if (!targetSessionId) {
+          showFeedback('No recent class session found to reconcile.', 'error');
+          return;
+        }
+
+        const res = await authFetch(`${API_BASE_URL}/session/${targetSessionId}/finalize-absentees`, {
+          method: 'POST'
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to reconcile absentees');
+
+        showFeedback(`Reconciliation completed for Session #${targetSessionId}: ${data.absent_count} absent, ${data.student_notifications_sent} student SMS, ${data.parent_notifications_sent} parent SMS.`, 'success');
+        fetchAbsentAlerts();
+        fetchLiveReports();
+      } catch (err) {
+        showFeedback(`Reconciliation error: ${err.message}`, 'error');
+      }
+    }
+
   </script>
 </body>
 </html>

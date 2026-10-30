@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /dashboard
+Disallow: /api/
+Disallow: /docs
+Disallow: /redoc
+
+Sitemap: https://attendx.onrender.com/sitemap.xml

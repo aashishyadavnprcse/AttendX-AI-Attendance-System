@@ -1,14 +1,41 @@
+import os
+import sys
+from pathlib import Path
+from typing import Optional
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, FileResponse, PlainTextResponse, Response
 
-from app.core.config import settings
+# Ensure backend directory and root directory are in sys.path
+backend_dir = Path(__file__).resolve().parent.parent
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+root_dir = backend_dir.parent
+if str(root_dir) not in sys.path:
+    sys.path.insert(0, str(root_dir))
+
+from app.core.config import settings, BASE_DIR
 from app.db.session import engine, Base, SessionLocal
 from app.models.user import User, UserRole
 from app.models.session import ClassSession
 from app.models.attendance import AttendanceLog, AttendanceStatus
 from app.core.security import get_password_hash
-from app.routers import auth, session, attendance, analytics
+from app.routers import (
+    auth,
+    session,
+    attendance,
+    analytics,
+    students,
+    settings as settings_router,
+    audit as audit_router,
+    predictions as predictions_router,
+    face_engine as face_engine_router,
+    presence as presence_router,
+    proximity as proximity_router,
+    iot as iot_router,
+    gait_posture as gait_posture_router,
+)
 
 
 def seed_initial_demo_data():
@@ -105,6 +132,12 @@ def seed_initial_demo_data():
 async def lifespan(app: FastAPI):
     # Initialize DB Schema tables
     Base.metadata.create_all(bind=engine)
+    # Reconcile database schema safely and idempotently
+    try:
+        from migrate_db import migrate_database
+        migrate_database()
+    except Exception as e:
+        print(f"[AttendX Lifespan] Migration notice: {e}")
     # Seed initial test data
     seed_initial_demo_data()
     yield
@@ -119,12 +152,12 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS Middleware for modern frontend frameworks (Vite, Next.js, etc.)
+# CORS Middleware: Restricts access to configured origins and safe methods
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
 )
 
@@ -133,6 +166,15 @@ app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(session.router, prefix=settings.API_V1_STR)
 app.include_router(attendance.router, prefix=settings.API_V1_STR)
 app.include_router(analytics.router, prefix=settings.API_V1_STR)
+app.include_router(students.router, prefix=settings.API_V1_STR)
+app.include_router(settings_router.router, prefix=settings.API_V1_STR)
+app.include_router(audit_router.router, prefix=settings.API_V1_STR)
+app.include_router(predictions_router.router, prefix=settings.API_V1_STR)
+app.include_router(face_engine_router.router, prefix=settings.API_V1_STR)
+app.include_router(presence_router.router, prefix=settings.API_V1_STR)
+app.include_router(proximity_router.router, prefix=settings.API_V1_STR)
+app.include_router(iot_router.router, prefix=settings.API_V1_STR)
+app.include_router(gait_posture_router.router, prefix=settings.API_V1_STR)
 
 
 @app.get("/api/health", tags=["System"])
@@ -144,3 +186,55 @@ def health_check():
         "biometrics_engine": "Active",
         "anti_spoofing": "Active",
     }
+
+
+# ==============================================================================
+# Public Web App, Landing Page & SEO Indexing Endpoints
+# ==============================================================================
+PROJECT_ROOT = BASE_DIR.parent if (BASE_DIR / "app").exists() else BASE_DIR
+
+
+def resolve_web_file(filename: str) -> Optional[Path]:
+    for candidate in [PROJECT_ROOT / filename, BASE_DIR / filename]:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+@app.get("/", response_class=HTMLResponse, tags=["Public Web App & SEO"])
+def serve_public_landing():
+    """Serves the SEO-optimized public landing page for Google search indexing and visitor introduction."""
+    landing_file = resolve_web_file("public_landing.html")
+    if landing_file and landing_file.exists():
+        return FileResponse(landing_file, media_type="text/html")
+    return HTMLResponse("<h1>AttendX AI — Smart Attendance System</h1><p><a href='/dashboard'>Launch Dashboard</a></p>")
+
+
+@app.get("/dashboard", response_class=HTMLResponse, tags=["Public Web App & SEO"])
+@app.get("/app", response_class=HTMLResponse, tags=["Public Web App & SEO"])
+def serve_dashboard_app():
+    """Serves the complete AttendX AI web dashboard application."""
+    dash_file = resolve_web_file("dashboard-preview.html")
+    if dash_file and dash_file.exists():
+        return FileResponse(dash_file, media_type="text/html")
+    return HTMLResponse("<h1>Dashboard application not found.</h1>", status_code=404)
+
+
+@app.get("/robots.txt", response_class=PlainTextResponse, tags=["Public Web App & SEO"])
+def serve_robots_file():
+    """Directs web crawlers to public index pages while securing internal API routes."""
+    robots_file = resolve_web_file("robots.txt")
+    if robots_file and robots_file.exists():
+        return FileResponse(robots_file, media_type="text/plain")
+    return PlainTextResponse("User-agent: *\nAllow: /\nAllow: /dashboard\nDisallow: /api/\nDisallow: /docs\n")
+
+
+@app.get("/sitemap.xml", tags=["Public Web App & SEO"])
+def serve_sitemap_file():
+    """Serves the XML sitemap for Google Search Console indexing."""
+    sitemap_file = resolve_web_file("sitemap.xml")
+    if sitemap_file and sitemap_file.exists():
+        return FileResponse(sitemap_file, media_type="application/xml")
+    return Response("<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'></urlset>", media_type="application/xml")
+
+

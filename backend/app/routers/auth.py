@@ -64,24 +64,36 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login", response_model=Token)
 def login(credentials: UserLogin, db: Session = Depends(get_db)):
     """
-    Authenticate user with email and password, returning JWT Bearer token.
+    Authenticate user with email/roll number and password, returning JWT Bearer token.
     """
-    user = db.query(User).filter(User.email == credentials.email).first()
-    if not user or not verify_password(credentials.password, user.hashed_password):
+    identifier = (credentials.email or credentials.username or "").strip()
+    if not identifier:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Email address or student roll number is required.",
+        )
+
+    # Allow login by email (case-insensitive) or roll number
+    user = db.query(User).filter(
+        (User.email.ilike(identifier)) | (User.roll_number == identifier)
+    ).first()
+
+    if not user or not user.check_password(credentials.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password combination.",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    token = create_access_token(subject=user.id, role=user.role.value)
+    role_val = user.role.value if hasattr(user.role, "value") else str(user.role)
+    token = create_access_token(subject=user.id, role=role_val, email=user.email)
     return Token(
         access_token=token,
         token_type="bearer",
         user_id=user.id,
         name=user.name,
         email=user.email,
-        role=user.role.value,
+        role=role_val,
     )
 
 

@@ -51,9 +51,13 @@ class ContinuousMonitoringBatchRequest(BaseModel):
 
 
 class ContinuousMonitoringBatchResponse(BaseModel):
-    status: str
+    status: str = "PROCESSED"
+    success: bool = True
     session_id: int
     interval_index: int
     students_updated: int
     bunks_flagged: int
     timestamp: datetime
+    processed_count: int = 0
+    alerts_triggered: int = 0
+    message: str = "Batch processed successfully"

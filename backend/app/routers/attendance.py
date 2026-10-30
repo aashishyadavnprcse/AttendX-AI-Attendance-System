@@ -1,14 +1,22 @@
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException, Request, Query, status
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_current_user, require_role
 from app.db.session import get_db
 from app.models.user import User, UserRole
 from app.models.session import ClassSession
 from app.models.attendance import AttendanceLog, AttendanceStatus
-from app.schemas.attendance import AttendanceVerifyRequest, AttendanceVerifyResponse
+from app.schemas.attendance import (
+    AttendanceVerifyRequest,
+    AttendanceVerifyResponse,
+    AttendanceReportsResponse,
+    AttendanceReportItem,
+    AttendanceReportsSummary,
+    ManualAttendanceRequest,
+)
 from app.services.face_matcher import verify_biometric_face
 from app.services.geofence_validator import validate_geofence_and_network_security
 
@@ -131,6 +139,13 @@ def verify_attendance(
     db.commit()
     db.refresh(log)
 
+    if attendance_status == AttendanceStatus.PRESENT:
+        try:
+            from app.services.notification_dispatcher import sync_attendance_correction
+            sync_attendance_correction(db, session.id, target_student.id, attendance_status, "Biometric Face Recognition")
+        except Exception:
+            pass
+
     return AttendanceVerifyResponse(
         log_id=log.id,
         student_id=target_student.id,
@@ -244,3 +259,106 @@ def get_attendance_reports(
         ),
         records=report_items,
     )
+
+
+@router.post("/manual", response_model=AttendanceVerifyResponse)
+def record_manual_attendance(
+    payload: ManualAttendanceRequest,
+    current_user: User = Depends(require_role([UserRole.TEACHER, UserRole.ADMIN])),
+    db: Session = Depends(get_db)
+):
+    """
+    Manually record or update attendance for an enrolled student.
+    Prevents duplicate entries for the same student and session.
+    """
+    from sqlalchemy import desc
+
+    # 1. Validate student
+    student = db.query(User).filter(User.id == payload.student_id, User.role == UserRole.STUDENT).first()
+    if not student:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Student with ID {payload.student_id} not found."
+        )
+
+    # 2. Validate session
+    session = None
+    if payload.session_id:
+        session = db.query(ClassSession).filter(ClassSession.id == payload.session_id).first()
+    else:
+        session = db.query(ClassSession).filter(ClassSession.is_active == True).order_by(desc(ClassSession.start_time)).first()
+
+    if not session:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No active class session found. Please start a session first."
+        )
+
+    # 3. Check for duplicate attendance
+    existing_log = db.query(AttendanceLog).filter(
+        AttendanceLog.session_id == session.id,
+        AttendanceLog.student_id == student.id,
+        AttendanceLog.status == payload.status
+    ).first()
+
+    if existing_log:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Duplicate prevented: {student.name} ({student.roll_number}) is already marked {payload.status.value} for session '{session.subject_name}'."
+        )
+
+    # Check if student already has a log in this session with a different status
+    prior_log = db.query(AttendanceLog).filter(
+        AttendanceLog.session_id == session.id,
+        AttendanceLog.student_id == student.id
+    ).first()
+
+    if prior_log:
+        prior_log.status = payload.status
+        prior_log.timestamp = datetime.now(timezone.utc)
+        prior_log.verification_method = "MANUAL_INSTRUCTOR_VERIFICATION"
+        prior_log.notes = payload.notes or f"Updated to {payload.status.value} by instructor"
+        prior_log.confidence_score = 1.0
+        db.commit()
+        db.refresh(prior_log)
+        log = prior_log
+    else:
+        log = AttendanceLog(
+            student_id=student.id,
+            session_id=session.id,
+            timestamp=datetime.now(timezone.utc),
+            status=payload.status,
+            confidence_score=1.0,
+            verification_method="MANUAL_INSTRUCTOR_VERIFICATION",
+            gps_latitude=session.classroom_latitude,
+            gps_longitude=session.classroom_longitude,
+            distance_meters=0.0,
+            liveness_score=1.0,
+            notes=payload.notes or "Manual attendance record",
+        )
+        db.add(log)
+        db.commit()
+        db.refresh(log)
+
+    if payload.status == AttendanceStatus.PRESENT:
+        try:
+            from app.services.notification_dispatcher import sync_attendance_correction
+            sync_attendance_correction(db, session.id, student.id, payload.status, current_user.name)
+        except Exception:
+            pass
+
+    return AttendanceVerifyResponse(
+        log_id=log.id,
+        student_id=student.id,
+        student_name=student.name,
+        session_id=session.id,
+        status=log.status,
+        confidence_score=1.0,
+        liveness_verified=True,
+        distance_meters=0.0,
+        geofence_verified=True,
+        timestamp=log.timestamp,
+        message=f"Attendance recorded as {log.status.value} for {student.name}.",
+    )
+
+

@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
 
@@ -10,11 +10,15 @@ venv/
 .env
 .env.*
 !.env.example
+!.env*.example
 
-# Databases
+# Databases & Backups
 *.db
+*.db*
 *.sqlite
 *.sqlite3
+*.backup
+*.phase1_backup
 
 # Logs
 *.log
@@ -27,3 +31,9 @@ known_faces/
 # Temporary files
 temp/
 tmp/
+*.bak
+
+# Local database files
+backend/*.db
+backend/*.db-journal
+backend/*.db-wal

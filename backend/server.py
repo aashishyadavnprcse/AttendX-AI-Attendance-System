@@ -220,12 +220,21 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+raw_origins = os.getenv(
+    "ALLOWED_ORIGINS",
+    "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8000,http://127.0.0.1:8000"
+)
+frontend_prod_url = os.getenv("PRODUCTION_FRONTEND_URL", "")
+allowed_origins_set = {o.strip() for o in raw_origins.split(",") if o.strip()}
+if frontend_prod_url.strip():
+    allowed_origins_set.add(frontend_prod_url.strip())
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=sorted(list(allowed_origins_set)),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"],
 )
 
 

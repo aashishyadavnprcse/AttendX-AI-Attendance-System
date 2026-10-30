@@ -1,0 +1,28 @@
+# ==============================================================================
+# AttendX AI — Render Cloud Infrastructure Blueprint
+# ==============================================================================
+services:
+  - type: web
+    name: attendx-ai-system
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install --upgrade pip && pip install -r backend/requirements.txt
+    startCommand: python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FACE_MATCH_SIMILARITY_THRESHOLD
+        value: "0.70"
+      - key: LIVENESS_MIN_CONFIDENCE
+        value: "0.85"
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "480"
+      - key: ALLOWED_ORIGINS
+        value: "*"

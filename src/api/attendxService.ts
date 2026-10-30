@@ -17,7 +17,8 @@ import {
 } from '../components/dashboard/types';
 
 const API_BASE_URL =
-  (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_URL) ||
+  (typeof process !== 'undefined' && (process.env?.NEXT_PUBLIC_API_URL || process.env?.REACT_APP_API_URL)) ||
+  (typeof window !== 'undefined' && (window as any)?.__ATTENDX_API_URL__) ||
   'http://127.0.0.1:8000/api';
 
 class AttendXApiError extends Error {

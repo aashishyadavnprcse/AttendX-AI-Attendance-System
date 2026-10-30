@@ -5,8 +5,14 @@ to verify the 3D liveness logic, embedding matcher, and JSON output structure.
 """
 
 import json
+import sys
+from pathlib import Path
 import numpy as np
 import cv2
+
+# Add workspace root to Python path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from vision_engine.service import AttendXVisionService
 
 
